@@ -10,7 +10,7 @@ $danger-light: #F9DEDC;
 
 html,
 body {
-    background-color: whitesmoke;
+  background-color: whitesmoke;
 }
 
 p,
@@ -22,46 +22,46 @@ span,
 ul,
 input,
 i {
-    font-size: 12px;
+  font-size: 12px;
 }
 
 button,
 a,
 input[type=submit] {
-    border-radius: 3px;
-    transition: 0.2s all ease;
-    padding: 5px 16px;
+  border-radius: 3px;
+  transition: 0.2s all ease;
+  padding: 5px 16px;
 }
 
 input,
 select {
-    padding: 5px 16px;
+  padding: 5px 16px;
 }
 
 .rounded-c {
-    border-radius: 3px;
+  border-radius: 3px;
 }
 
 input {
-    min-width: 80px;
+  min-width: 80px;
 }
 
 .auth-screen {
-    height: 100vh;
-    width: 100vw;
-    position: relative;
-    background-color: $primary;
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  background-color: $primary;
 
-    .auth-card {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        box-shadow: 0 2px 5px #79797994;
+  .auth-card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 2px 5px #79797994;
 
-        .marker {
-            width: 20px;
-            height: 20px;
-        }
+    .marker {
+      width: 20px;
+      height: 20px;
     }
+  }
 }

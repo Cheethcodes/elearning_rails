@@ -12,6 +12,7 @@
 /backend/public/assets
 /backend/.byebug_history
 /backend/config/master.key
+/backend/config/database.yml
 
 # FRONTEND
 /frontend/node_modules

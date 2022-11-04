@@ -1,23 +1,25 @@
-import logo from './logo.svg'
-import './App.scss'
+import { Route, Routes } from 'react-router-dom'
+import { RouteList } from './constants/RouteList'
+import { AuthProvider } from './services/AuthProvider'
+import { Dashboard } from './pages/Dashboard'
+import { AuthRoute } from './routes/AuthRoute'
 
 export const App = () => {
     return (
-        <div className='App'>
-            <header className='App-header'>
-                <img src={logo} className='App-logo' alt='logo' />
-                <p>
-                    Edit <code>src/App.js</code> and save to reload.
-                </p>
-                <a
-                    className='App-link'
-                    href='https://reactjs.org'
-                    target='_blank'
-                    rel='noopener noreferrer'
-                >
-                    Learn React
-                </a>
-            </header>
-        </div>
+        <AuthProvider>
+            <Routes>
+                {
+                    RouteList.map((item, index) => {
+                        return (
+                            <Route key={index} path={item.url} element={
+                                <AuthRoute>
+                                    <item.page />
+                                </AuthRoute>
+                            } />
+                        )
+                    })
+                }
+            </Routes>
+        </AuthProvider>
     )
 }

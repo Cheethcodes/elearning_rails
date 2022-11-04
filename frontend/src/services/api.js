@@ -2,7 +2,7 @@ import axios from 'axios'
 import Cookies from 'js-cookie'
 
 const apiClient = axios.create({
-    baseURL: 'http://127.0.0.1:3000/',
+    baseURL: `${process.env.REACT_APP_RAILS_API}`,
     headers: {
         common: {
             'X-CSRFToken': Cookies.get('csrftoken'),

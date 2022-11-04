@@ -2,16 +2,66 @@
 @tailwind components;
 @tailwind utilities;
 
+$primary: #000D80;
+$success: #1EB351;
+$success-light: #DCF9E8;
+$danger: #B3261E;
+$danger-light: #F9DEDC;
+
+html,
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    background-color: whitesmoke;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+p,
+a,
+label,
+button,
+table,
+span,
+ul,
+input,
+i {
+    font-size: 12px;
+}
+
+button,
+a,
+input[type=submit] {
+    border-radius: 3px;
+    transition: 0.2s all ease;
+    padding: 5px 16px;
+}
+
+input,
+select {
+    padding: 5px 16px;
+}
+
+.rounded-c {
+    border-radius: 3px;
+}
+
+input {
+    min-width: 80px;
+}
+
+.auth-screen {
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    background-color: $primary;
+
+    .auth-card {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 2px 5px #79797994;
+
+        .marker {
+            width: 20px;
+            height: 20px;
+        }
+    }
 }

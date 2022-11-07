@@ -1,20 +1,32 @@
 import { Route, Routes } from 'react-router-dom'
-import { RouteList } from './constants/RouteList'
+import { AuthRouteList } from './constants/AuthRouteList'
+import { ProtectedRouteList } from './constants/ProtectedRouteList'
 import { AuthProvider } from './services/AuthProvider'
-import { Dashboard } from './pages/Dashboard'
 import { AuthRoute } from './routes/AuthRoute'
+import { ProtectedRoute } from './routes/ProtectedRoute'
 
 export const App = () => {
   return (
     <AuthProvider>
       <Routes>
         {
-          RouteList.map((item, index) => {
+          AuthRouteList.map((item, index) => {
             return (
               <Route key={index} path={item.url} element={
                 <AuthRoute>
                   <item.page />
                 </AuthRoute>
+              } />
+            )
+          })
+        }
+        {
+          ProtectedRouteList.map((item, index) => {
+            return (
+              <Route key={index} path={item.url} element={
+                <ProtectedRoute>
+                  <item.page />
+                </ProtectedRoute>
               } />
             )
           })

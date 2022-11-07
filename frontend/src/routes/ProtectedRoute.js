@@ -1,11 +1,11 @@
 import { Navigate } from 'react-router-dom'
 import { useAuth } from '../services/AuthProvider'
 
-export const AuthRoute = ({ children }) => {
+export const ProtectedRoute = ({ children }) => {
   const { loggedIn } = useAuth()
 
-  if (loggedIn) {
-    return <Navigate to='/dashboard' />
+  if (!loggedIn) {
+    return <Navigate to='/' />
   }
 
   return children

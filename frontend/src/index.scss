@@ -3,14 +3,32 @@
 @tailwind utilities;
 
 $primary: #000D80;
+$secondary: #5793CE;
 $success: #1EB351;
 $success-light: #DCF9E8;
 $danger: #B3261E;
 $danger-light: #F9DEDC;
 
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+  margin-right: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.001);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: $primary;
+}
+
 html,
 body {
   background-color: whitesmoke;
+  scrollbar-gutter: stable
 }
 
 p,
@@ -62,6 +80,39 @@ input {
     .marker {
       width: 20px;
       height: 20px;
+    }
+  }
+}
+
+#sidebar {
+  left: 0;
+  top: 0;
+  height: 100vh;
+  z-index: 5;
+  background-color: $primary;
+  color: white;
+  min-width: 250px;
+
+  .bottom-container {
+    background-color: $secondary;
+
+    .avatar {
+      width: 45px;
+      height: 45px;
+      background: gray;
+    }
+  }
+}
+
+#settings {
+  .uploader {
+    min-width: 200px;
+    width: 200px;
+    min-height: 200px;
+
+    img {
+      width: 200px;
+      height: 200px;
     }
   }
 }

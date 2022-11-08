@@ -4,6 +4,8 @@ import { ProtectedRouteList } from './constants/ProtectedRouteList'
 import { AuthProvider } from './services/AuthProvider'
 import { AuthRoute } from './routes/AuthRoute'
 import { ProtectedRoute } from './routes/ProtectedRoute'
+import { ProtectedLayout } from './components/layouts/ProtectedLayout'
+import { ToastContainer } from 'react-toastify'
 
 export const App = () => {
   return (
@@ -25,13 +27,16 @@ export const App = () => {
             return (
               <Route key={index} path={item.url} element={
                 <ProtectedRoute>
-                  <item.page />
+                  <ProtectedLayout>
+                    <item.page />
+                  </ProtectedLayout>
                 </ProtectedRoute>
               } />
             )
           })
         }
       </Routes>
+      <ToastContainer />
     </AuthProvider>
   )
 }

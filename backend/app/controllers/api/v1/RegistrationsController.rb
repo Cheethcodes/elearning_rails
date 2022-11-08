@@ -1,8 +1,4 @@
 class Api::V1::RegistrationsController < DeviseTokenAuth::RegistrationsController
-  def new
-    super
-  end
-
   def create
     # if params[@devise_mapping.name][:password_confirmation].blank?
     #   params[@devise_mapping.name].delete(:password)
@@ -15,18 +11,6 @@ class Api::V1::RegistrationsController < DeviseTokenAuth::RegistrationsControlle
       }
     end
   
-    super
-  end
-
-  def edit
-    super
-  end
-
-  def update
-    super
-  end
-
-  def destroy
     super
   end
 end

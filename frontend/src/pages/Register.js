@@ -5,6 +5,7 @@ import { useAuth } from '../services/AuthProvider'
 import Cookies from 'js-cookie'
 import { FaTimesCircle, FaCheckCircle } from 'react-icons/fa'
 import { FieldsWithValidation } from '../components/FieldsWithValidation'
+import { AuthCard } from '../components/AuthCard'
 
 export const Register = () => {
   const { login, loggedInUser, setLoggedInUser } = useAuth()
@@ -110,7 +111,7 @@ export const Register = () => {
 
     apiClient({
       method: 'post',
-      url: '/auth/',
+      url: '/user/',
       data: {
         email: user.email,
         username: user.username,
@@ -144,122 +145,109 @@ export const Register = () => {
       login()
       navigate('/dashboard')
     }).catch((error) => {
-      window.alert('There was an error processing your request!')
       setFieldErrors(error.response.data.errors)
-      console.log(fieldErrors)
     })
   }
 
   return (
-    <div className='auth-screen'>
-      <div className='auth-card rounded-3xl w-full mx-auto px-10 py-10 bg-white' style={{ maxWidth: '900px', backgroundColor: '#F5F6FA' }}>
-        <div className='flex justify-between mb-4'>
-          <h4 className='text-lg font-bold text-primary text-left'>{process.env.REACT_APP_NAME}</h4>
-          <a
-            href='/login'
-            className='hover:border-primary hover:text-primary text-slate-300 border border-slate-300'
-            style={{ padding: '6px 15px' }}>
-            Login
-          </a>
+    <AuthCard redirect='Login'>
+      <div className='text-center'>
+        <h3 className='text-lg font-bold'>Start your journey</h3>
+      </div>
+      <hr className='my-4' />
+      <div className='grid grid-cols-6'>
+        <div className='col-span-2'>
+          <ul>
+            <li className='flex items-center gap-2 font-medium'>
+              <div className='marker border-4 rounded-full border-danger bg-success' />
+              Create your credentials
+            </li>
+          </ul>
         </div>
-        <div className='text-center'>
-          <h3 className='text-lg font-bold'>Start your journey</h3>
-        </div>
-        <hr className='my-4' />
-        <div className='grid grid-cols-6'>
-          <div className='col-span-2'>
-            <ul>
-              <li className='flex items-center gap-2 font-medium'>
-                <div className='marker border-4 rounded-full border-danger bg-success' />
-                Create your credentials
-              </li>
-            </ul>
-          </div>
-          <div className='col-span-4'>
-            {/* Form */}
-            <form onSubmit={saveUser} className='flex flex-col gap-4'>
-              {/* Email Address */}
-              <FieldsWithValidation
-                type='email'
-                id='email'
-                placeholder='Email'
-                onChangeAction={handleOnChange}
-                value={user.email}
-                required={true}
-                errorMessage={fieldErrors.email} />
-              {/* Username */}
-              <FieldsWithValidation
-                type='text'
-                id='username'
-                placeholder='Username'
-                onChangeAction={handleOnChange}
-                value={user.username}
-                required={true}
-                errorMessage={fieldErrors.username} />
-              {/* Password */}
-              <FieldsWithValidation
-                type='password'
-                id='password'
-                placeholder='Password'
-                onChangeAction={handleOnChange}
-                value={user.password}
-                required={true}
-                errorMessage={fieldErrors.password} />
-              {/* Confirm Password */}
-              <FieldsWithValidation
-                type='password'
-                id='confirm_password'
-                placeholder='Confirm Password'
-                onChangeAction={handleOnChange}
-                value={user.confirm_password}
-                required={true} />
-              {/* Validators */}
-              <div className='grid grid-cols-2 gap-4'>
-                <div className='flex flex-col gap-2'>
-                  <div className={`flex items-center gap-2 ${validationRules.username.length ? 'text-success' : 'text-danger'}`}>
-                    {validationRules.username.length ? <FaCheckCircle className='text-md' /> : <FaTimesCircle className='text-md' />}
-                    <span className='text-small'>Username must be 4-10 characters only</span>
-                  </div>
-                  <div className={`flex items-center gap-2 ${validationRules.password.length ? 'text-success' : 'text-danger'}`}>
-                    {validationRules.password.length ? <FaCheckCircle className='text-md' /> : <FaTimesCircle className='text-md' />}
-                    <span className='text-small'>Password must be 6 - 20 characters only</span>
-                  </div>
-                  <div className={`flex items-center gap-2 ${validationRules.password.lowercase ? 'text-success' : 'text-danger'}`}>
-                    {validationRules.password.lowercase ? <FaCheckCircle className='text-md' /> : <FaTimesCircle className='text-md' />}
-                    <span className='text-small'>Password must have at least 1 lower case letter</span>
-                  </div>
-                  <div className={`flex items-center gap-2 ${validationRules.password.uppercase ? 'text-success' : 'text-danger'}`}>
-                    {validationRules.password.uppercase ? <FaCheckCircle className='text-md' /> : <FaTimesCircle className='text-md' />}
-                    <span className='text-small'>Password must have at least 1 upper case letter</span>
-                  </div>
+        <div className='col-span-4'>
+          {/* Form */}
+          <form onSubmit={saveUser} className='flex flex-col gap-4'>
+            {/* Email Address */}
+            <FieldsWithValidation
+              type='email'
+              id='email'
+              placeholder='Email'
+              onChangeAction={handleOnChange}
+              value={user.email}
+              required={true}
+              errorMessage={fieldErrors.email} />
+            {/* Username */}
+            <FieldsWithValidation
+              type='text'
+              id='username'
+              placeholder='Username'
+              onChangeAction={handleOnChange}
+              value={user.username}
+              required={true}
+              errorMessage={fieldErrors.username} />
+            {/* Password */}
+            <FieldsWithValidation
+              type='password'
+              id='password'
+              placeholder='Password'
+              onChangeAction={handleOnChange}
+              value={user.password}
+              required={true}
+              errorMessage={fieldErrors.password} />
+            {/* Confirm Password */}
+            <FieldsWithValidation
+              type='password'
+              id='confirm_password'
+              placeholder='Confirm Password'
+              onChangeAction={handleOnChange}
+              value={user.confirm_password}
+              required={true} />
+            {/* Validators */}
+            <div className='grid grid-cols-2 gap-4'>
+              <div className='flex flex-col gap-2'>
+                <div className={`flex items-center gap-2 ${validationRules.username.length ? 'text-success' : 'text-danger'}`}>
+                  {validationRules.username.length ? <FaCheckCircle className='text-md' /> : <FaTimesCircle className='text-md' />}
+                  <span className='text-small'>Username must be 4-10 characters only</span>
                 </div>
-                <div className='flex flex-col gap-2'>
-                  <div className={`flex items-center gap-2 ${validationRules.password.number ? 'text-success' : 'text-danger'}`}>
-                    {validationRules.password.number ? <FaCheckCircle className='text-md' /> : <FaTimesCircle className='text-md' />}
-                    <span className='text-small'>Password must have at least 1 number</span>
-                  </div>
-                  <div className={`flex items-center gap-2 ${validationRules.password.symbols ? 'text-success' : 'text-danger'}`}>
-                    {validationRules.password.symbols ? <FaCheckCircle className='text-md' /> : <FaTimesCircle className='text-md' />}
-                    <span className='text-small'>Password should contain at least 1 special symbol</span>
-                  </div>
-                  <div className={`flex items-center gap-2 ${validationRules.password.match ? 'text-success' : 'text-danger'}`}>
-                    {validationRules.password.match ? <FaCheckCircle className='text-md' /> : <FaTimesCircle className='text-md' />}
-                    <span className='text-small'>Password must match</span>
-                  </div>
+                <div className={`flex items-center gap-2 ${validationRules.password.length ? 'text-success' : 'text-danger'}`}>
+                  {validationRules.password.length ? <FaCheckCircle className='text-md' /> : <FaTimesCircle className='text-md' />}
+                  <span className='text-small'>Password must be 6 - 20 characters only</span>
+                </div>
+                <div className={`flex items-center gap-2 ${validationRules.password.lowercase ? 'text-success' : 'text-danger'}`}>
+                  {validationRules.password.lowercase ? <FaCheckCircle className='text-md' /> : <FaTimesCircle className='text-md' />}
+                  <span className='text-small'>Password must have at least 1 lower case letter</span>
+                </div>
+                <div className={`flex items-center gap-2 ${validationRules.password.uppercase ? 'text-success' : 'text-danger'}`}>
+                  {validationRules.password.uppercase ? <FaCheckCircle className='text-md' /> : <FaTimesCircle className='text-md' />}
+                  <span className='text-small'>Password must have at least 1 upper case letter</span>
                 </div>
               </div>
-              <div className='text-right'>
-                <button
-                  type='submit'
-                  className='bg-primary hover:bg-transparent text-white hover:text-primary border border-primary py-3 px-5'
-                  style={{ width: '180px' }}>
-                  REGISTER
-                </button>
+              <div className='flex flex-col gap-2'>
+                <div className={`flex items-center gap-2 ${validationRules.password.number ? 'text-success' : 'text-danger'}`}>
+                  {validationRules.password.number ? <FaCheckCircle className='text-md' /> : <FaTimesCircle className='text-md' />}
+                  <span className='text-small'>Password must have at least 1 number</span>
+                </div>
+                <div className={`flex items-center gap-2 ${validationRules.password.symbols ? 'text-success' : 'text-danger'}`}>
+                  {validationRules.password.symbols ? <FaCheckCircle className='text-md' /> : <FaTimesCircle className='text-md' />}
+                  <span className='text-small'>Password should contain at least 1 special symbol</span>
+                </div>
+                <div className={`flex items-center gap-2 ${validationRules.password.match ? 'text-success' : 'text-danger'}`}>
+                  {validationRules.password.match ? <FaCheckCircle className='text-md' /> : <FaTimesCircle className='text-md' />}
+                  <span className='text-small'>Password must match</span>
+                </div>
               </div>
-            </form>
-          </div>
+            </div>
+            <div className='text-right'>
+              <button
+                type='submit'
+                className='bg-primary hover:bg-transparent text-white hover:text-primary border border-primary py-3 px-5'
+                style={{ width: '180px' }}>
+                REGISTER
+              </button>
+            </div>
+          </form>
         </div>
       </div>
-    </div>
+    </AuthCard>
   )
 }

@@ -116,3 +116,14 @@ input {
     }
   }
 }
+
+.card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.544);
+
+  .avatar {
+    height: 50px;
+    width: 50px;
+  }
+}

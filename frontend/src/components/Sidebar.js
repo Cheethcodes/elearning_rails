@@ -3,7 +3,7 @@ import { GiHamburgerMenu } from 'react-icons/gi'
 import { AiOutlinePoweroff } from 'react-icons/ai'
 import { useAuth } from '../services/AuthProvider'
 import { BsGear, BsHouseDoor } from 'react-icons/bs'
-import { TbDashboard } from 'react-icons/tb'
+import { TbDashboard, TbUser } from 'react-icons/tb'
 import UserAvatar from './UserAvatar'
 import apiClient from '../services/api'
 import { Toastify } from './Toastify'
@@ -41,6 +41,10 @@ export const Sidebar = () => {
             <li className='flex items-center gap-4'>
               <TbDashboard className='text-lg' />
               <a href='/dashboard' className='block' style={{ padding: '0' }}>Dashboard</a>
+            </li>
+            <li className='flex items-center gap-4'>
+              <TbUser className='text-lg' />
+              <a href='/users' className='block' style={{ padding: '0' }}>Community</a>
             </li>
             <li className='flex items-center gap-4'>
               <BsGear className='text-lg' />

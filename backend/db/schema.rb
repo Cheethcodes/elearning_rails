@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_08_042225) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_09_072727) do
+  create_table "user_follows", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "follower_id", null: false
+    t.bigint "followed_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["followed_id"], name: "index_user_follows_on_followed_id"
+    t.index ["follower_id"], name: "index_user_follows_on_follower_id"
+  end
+
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
@@ -36,4 +45,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_08_042225) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "user_follows", "users", column: "followed_id"
+  add_foreign_key "user_follows", "users", column: "follower_id"
 end

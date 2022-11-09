@@ -2,9 +2,11 @@ import React, { useMemo, useState } from 'react'
 import { Toastify } from '../components/Toastify'
 import apiClient from '../services/api'
 import { useAuth } from '../services/AuthProvider'
+import { useNavigate } from 'react-router-dom'
 
 export const Users = () => {
   const { loggedInUser } = useAuth()
+  const navigate = useNavigate()
   const [users, setUsers] = useState([])
 
   const data = useMemo(() => {
@@ -13,7 +15,6 @@ export const Users = () => {
       url: '/api/v1/users'
     }).then(response => {
       setUsers(response.data)
-      console.log(response.data)
     }).catch(error => {
       Toastify('error', error.response.data)
     })
@@ -22,24 +23,23 @@ export const Users = () => {
   return (
     <div>
       <h4 className='text-lg text-primary font-bold'>Elearning Community</h4>
-      <hr className='my-1' />
-      <div className='grid grid-cols-3'>
+      <hr className='mt-1 mb-4' />
+      <div className='grid grid-cols-4 gap-5'>
         {
           users.length > 1 ?
-            users.filter(user => user.id.toString() !== loggedInUser.id).map((filteredIUser, index) => {
-              console.log(filteredIUser)
+            users.filter(user => user.id.toString() !== loggedInUser.id).map((filteredUser, index) => {
               return (
-                <div key={index} className='flex card p-5 gap-3'>
+                <div key={index} className='flex card p-5 gap-3' onClick={() => navigate(`/users/${filteredUser.id}`)}>
                   <div
                     className='avatar border-2 border-success flex items-center justify-center rounded-full overflow-hidden'
                     style={{
-                      backgroundImage: `url(${(filteredIUser.avatar.url !== null && filteredIUser.avatar.url !== '') ? 'http://localhost:3000' + filteredIUser.avatar.url : 'https://st3.depositphotos.com/4111759/13425/v/600/depositphotos_134255710-stock-illustration-avatar-vector-male-profile-gray.jpg'})`,
+                      backgroundImage: `url(${(filteredUser.avatar.url !== null && filteredUser.avatar.url !== '') ? 'http://localhost:3000' + filteredUser.avatar.url : 'https://st3.depositphotos.com/4111759/13425/v/600/depositphotos_134255710-stock-illustration-avatar-vector-male-profile-gray.jpg'})`,
                       backgroundSize: 'cover',
                       backgroundPosition: 'center',
                     }} />
-                  <div>
-                    <h4 className='font-medium text-normal text-primary'>{filteredIUser.username}</h4>
-                    <small className='text-sm'>{filteredIUser.is_admin ? 'Instructor' : 'Student'}</small>
+                  <div className='flex flex-col justify-center'>
+                    <h4 className='font-medium text-normal text-primary'>{filteredUser.username}</h4>
+                    <small className='text-sm'>{filteredUser.is_admin ? 'Instructor' : 'Student'}</small>
                   </div>
                 </div>
               )

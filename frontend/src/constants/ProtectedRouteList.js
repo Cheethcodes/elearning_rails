@@ -1,5 +1,6 @@
 import { Dashboard } from '../pages/Dashboard'
 import { ProfileSettings } from '../pages/ProfileSettings'
+import { SingleUser } from '../pages/SingleUser'
 import { Users } from '../pages/Users'
 
 export const ProtectedRouteList = [
@@ -18,4 +19,9 @@ export const ProtectedRouteList = [
     url: '/users',
     page: Users
   },
+  {
+    name: 'Single User',
+    url: '/users/:id',
+    page: SingleUser
+  }
 ]

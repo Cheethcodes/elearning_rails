@@ -30,7 +30,7 @@ export const SingleUser = () => {
   const dataValidate = useMemo(() => {
     apiClient({
       method: 'post',
-      url: '/api/v1/validate_follow/',
+      url: '/api/v1/user_follows/validate_follow/',
       data: {
         follow: {
           follower_id: loggedInUser.id,
@@ -52,7 +52,6 @@ export const SingleUser = () => {
       url: `/api/v1/user_follows/${id}`
     }).then(response => {
       setCounter(response.data)
-      console.log(response.data)
     }).catch(error => {
       Toastify('error', error.response.data)
     })
@@ -63,7 +62,7 @@ export const SingleUser = () => {
   const toggleFollow = () => {
     apiClient({
       method: 'post',
-      url: isFollowing ? '/api/v1/unfollow' : '/api/v1/follow',
+      url: isFollowing ? '/api/v1/user_follows/unfollow' : '/api/v1/user_follows/follow',
       data: {
         follow: {
           follower_id: loggedInUser.id,

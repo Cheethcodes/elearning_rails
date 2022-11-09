@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { FaCheckCircle, FaSave, FaTimes, FaTimesCircle } from 'react-icons/fa'
+import { FaCheckCircle, FaTimes, FaTimesCircle } from 'react-icons/fa'
 import { FieldsWithValidation } from '../components/FieldsWithValidation'
 import { Toastify } from '../components/Toastify'
 import UserAvatar from '../components/UserAvatar'
@@ -147,10 +147,10 @@ export const ProfileSettings = () => {
   return (
     <>
       <h4 className='text-lg text-primary font-bold'>Account Settings</h4>
-      <hr className='my-1' />
+      <hr className='mt-1 mb-4' />
       <div id='settings' className='mb-4 bg-white px-12 py-8 rounded-lg'>
         <h4 className='text-md text-primary font-bold'>General Information</h4>
-        <hr className='my-2' />
+        <hr className='mt-1 mb-2' />
         <div className='flex gap-5'>
           <div className='uploader relative overflow-none'>
             <UserAvatar avatar={profile.avatar} className=' mb-3' />
@@ -246,7 +246,7 @@ export const ProfileSettings = () => {
       </div>
       <div className='mb-4 bg-white px-12 py-8 rounded-lg'>
         <h4 className='text-md text-primary font-bold'>Change Password</h4>
-        <hr className='my-2' />
+        <hr className='mt-1 mb-2' />
         <div>
           <form onSubmit={savePassword} className='flex gap-4'>
             <div className='grow'>

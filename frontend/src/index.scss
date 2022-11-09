@@ -48,7 +48,7 @@ a,
 input[type=submit] {
   border-radius: 3px;
   transition: 0.2s all ease;
-  padding: 5px 16px;
+  line-height: 1;
 }
 
 input,
@@ -121,9 +121,28 @@ input {
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.544);
+  transition: 0.2s all ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.02);
+  }
 
   .avatar {
     height: 50px;
     width: 50px;
+  }
+}
+
+#single-user {
+  .pub-profile {
+    min-width: 200px;
+    width: 200px;
+    min-height: 200px;
+
+    img {
+      width: 200px;
+      height: 200px;
+    }
   }
 }

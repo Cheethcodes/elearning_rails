@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
+      post :validate_follow, controller: "user_follows"
+      post :follow, controller: "user_follows"
+      post :unfollow, controller: "user_follows"
       resources :users
+      resources :user_follows
     end
   end
 

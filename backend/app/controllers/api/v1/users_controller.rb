@@ -4,19 +4,19 @@ class Api::V1::UsersController < ApplicationController
     render json: user
   end
 
-  def update_avatar
-    user = User.find(params[:user_id])
+  def update
+    user = User.find(params[:id])
     user.update(avatar: avatar_params[:avatar])
+    user.update(username: avatar_params[:username])
+    user.update(email: avatar_params[:email])
     
     uploader = AvatarUploader.new(user, :avatar)
     uploader.store!(avatar_params[:avatar])
-
-    render json: avatar_params
   end
 
   private
 
   def avatar_params
-    params.require(:avatar).permit(:has_avatar, :avatar)
+    params.require(:avatar).permit(:username, :email, :has_avatar, :avatar)
   end
 end

@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { FaCheckCircle, FaSave, FaTimes, FaTimesCircle } from 'react-icons/fa'
 import { FieldsWithValidation } from '../components/FieldsWithValidation'
@@ -12,6 +13,8 @@ export const ProfileSettings = () => {
   const [hasAvatar, setHasAvatar] = useState(false)
   const avatarRef = useRef(null)
   const [profile, setProfile] = useState({
+    username: '',
+    email: '',
     avatar: '',
     password: '',
     confirm_password: '',
@@ -81,21 +84,28 @@ export const ProfileSettings = () => {
     setHasAvatar(false)
   }
 
-  const saveAvatar = () => {
+  const saveInformation = (e) => {
+    e.preventDefault()
+
     const formData = new FormData()
     formData.append('avatar[has_avatar]', hasAvatar)
     formData.append('avatar[avatar]', profile.avatar)
+    formData.append('avatar[username]', profile.username)
+    formData.append('avatar[email]', profile.email)
 
     apiClient({
       method: 'patch',
-      url: `/api/v1/users/${loggedInUser.id}/update_avatar/`,
+      url: `/api/v1/users/${loggedInUser.id}/`,
       data: formData
     }).then(response => {
+      Cookies.set('user_username', profile.username)
+      Cookies.set('user_email', profile.email)
       Toastify('success', 'Successfully updated avatar!')
       window.location.reload(false);
     }).catch(error => {
       Toastify('error', error.response.data)
     })
+
   }
 
   const savePassword = (e) => {
@@ -155,30 +165,69 @@ export const ProfileSettings = () => {
               <button
                 type='button'
                 onClick={deleteAvatar}
-                className='bg-danger hover:bg-transparent text-white hover:text-danger border border-danger p-2 text-white'><FaTimes /></button>
-              <button
-                type='button'
-                onClick={saveAvatar}
-                className='bg-success hover:bg-transparent text-white hover:text-success border border-success p-2 text-white'><FaSave /></button>
+                className='bg-danger hover:bg-transparent text-white hover:text-danger border border-danger p-2 text-white'>
+                <FaTimes />
+              </button>
             </div>
           </div>
-          <div className='w- py-5'>
-            <table className='w-full table-auto'>
-              <tbody>
-                <tr>
-                  <td className='font-medium pr-2 pb-2'>User Name:</td>
-                  <td className='pb-2'>{loggedInUser.username}</td>
-                </tr>
-                <tr>
-                  <td className='font-medium pr-2 pb-2'>Email:</td>
-                  <td className='pb-2'>{loggedInUser.email}</td>
-                </tr>
-                <tr>
-                  <td className='font-medium pr-2 pb-2'>User Level:</td>
-                  <td className='pb-2'>{loggedInUser.is_admin === true ? 'Instructor' : 'Student'}</td>
-                </tr>
-              </tbody>
-            </table>
+          <div className='w-full'>
+            <form onSubmit={saveInformation} className='flex flex-col h-full'>
+              <div className='grow'>
+                <table>
+                  <tbody>
+                    <tr>
+                      <td className='font-medium pr-2'>
+                        <div className='flex items-center' style={{ marginBottom: '12px' }}>
+                          User Name:
+                        </div>
+                      </td>
+                      <td style={{ minWidth: '250px' }}>
+                        <FieldsWithValidation
+                          type='text'
+                          id='username'
+                          placeholder='Username'
+                          className=' border border-slate-300'
+                          onChangeAction={handleOnChange}
+                          value={profile.username}
+                          required={true} />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className='font-medium pr-2 pb-2'>
+                        <div className='flex items-center' style={{ marginBottom: '12px' }}>
+                          Email:
+                        </div>
+                      </td>
+                      <td style={{ minWidth: '250px' }}>
+                        <FieldsWithValidation
+                          type='email'
+                          id='email'
+                          placeholder='Email'
+                          className=' border border-slate-300'
+                          onChangeAction={handleOnChange}
+                          value={profile.email}
+                          required={true} /></td>
+                    </tr>
+                    <tr>
+                      <td className='font-medium pr-2 pb-2'>
+                        <div className='flex items-center'>
+                          User Level:
+                        </div>
+                      </td>
+                      <td className='pb-2'>{loggedInUser.is_admin === true ? 'Instructor' : 'Student'}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div className='flex justify-end'>
+                <button
+                  type='submit'
+                  className='bg-primary hover:bg-transparent text-white hover:text-primary border border-primary py-3 px-5'
+                  style={{ width: '180px' }}>
+                  Save Information
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>

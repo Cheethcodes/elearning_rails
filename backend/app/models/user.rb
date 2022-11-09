@@ -1,9 +1,10 @@
 class User < ApplicationRecord
   extend Devise::Models
 
+  mount_uploader :avatar, AvatarUploader
+  
   attr_accessor :skip_validations
 
-  # Include default devise modules.
   devise :database_authenticatable, :registerable,
           :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User

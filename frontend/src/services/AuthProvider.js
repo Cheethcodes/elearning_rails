@@ -13,6 +13,7 @@ export const AuthProvider = ({ children }) => {
     email: Cookies.get('user_email') ? Cookies.get('user_email') : '',
     is_admin: Cookies.get('user_admin') ? Cookies.get('user_admin') : '',
   })
+  const [profileUpdate, setProfileUpdate] = useState(true)
 
   const login = async () => {
     const data = await setLoggedIn({
@@ -25,6 +26,8 @@ export const AuthProvider = ({ children }) => {
     loggedIn,
     loggedInUser,
     setLoggedInUser,
+    profileUpdate,
+    setProfileUpdate,
   }), [loggedIn, loggedInUser])
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

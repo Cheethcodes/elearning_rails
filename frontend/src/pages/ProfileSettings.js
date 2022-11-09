@@ -10,7 +10,10 @@ import { useAuth } from '../services/AuthProvider'
 export const ProfileSettings = () => {
   const { loggedInUser, profileUpdate, setProfileUpdate } = useAuth()
 
-  const [hasAvatar, setHasAvatar] = useState(false)
+  const [hasAvatar, setHasAvatar] = useState({
+    hasContent: false,
+    isUpdated: false,
+  })
   const avatarRef = useRef(null)
   const [profile, setProfile] = useState({
     username: '',
@@ -49,7 +52,10 @@ export const ProfileSettings = () => {
         email: response.data.email,
         avatar: (response.data.avatar !== null && response.data.avatar !== '') ? response.data.avatar.url : null
       })
-      setHasAvatar((response.data.avatar !== '' && response.data.avatar !== null) ? true : false)
+      setHasAvatar({
+        ...hasAvatar,
+        hasContent: (response.data.avatar !== '' && response.data.avatar !== null) ? true : false
+      })
     }).catch(error => {
       Toastify('error', error.response.data)
     })
@@ -81,14 +87,18 @@ export const ProfileSettings = () => {
       avatar: null
     })
 
-    setHasAvatar(false)
+    setHasAvatar({
+      hasContent: false,
+      isUpdated: true,
+    })
   }
 
   const saveInformation = (e) => {
     e.preventDefault()
 
     const formData = new FormData()
-    formData.append('avatar[has_avatar]', hasAvatar)
+    formData.append('avatar[has_avatar]', hasAvatar.hasContent)
+    formData.append('avatar[has_updated]', hasAvatar.isUpdated)
     formData.append('avatar[avatar]', profile.avatar)
     formData.append('avatar[username]', profile.username)
     formData.append('avatar[email]', profile.email)
@@ -101,7 +111,7 @@ export const ProfileSettings = () => {
       Cookies.set('user_username', profile.username)
       Cookies.set('user_email', profile.email)
       Toastify('success', 'Successfully updated avatar!')
-      window.location.reload(false);
+      window.location.reload(false)
     }).catch(error => {
       Toastify('error', error.response.data)
     })
@@ -157,7 +167,10 @@ export const ProfileSettings = () => {
                     avatar: e.target.files[0],
                     profilepic: URL.createObjectURL(e.target.files[0])
                   })
-                  setHasAvatar(true)
+                  setHasAvatar({
+                    hasContent: true,
+                    isUpdated: true,
+                  })
                 }}
                 className='hidden'
                 accept='image/*'

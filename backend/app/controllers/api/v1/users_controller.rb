@@ -11,17 +11,20 @@ class Api::V1::UsersController < ApplicationController
 
   def update
     user = User.find(params[:id])
-    user.update(avatar: avatar_params[:avatar])
     user.update(username: avatar_params[:username])
     user.update(email: avatar_params[:email])
     
-    uploader = AvatarUploader.new(user, :avatar)
-    uploader.store!(avatar_params[:avatar])
+    if (avatar_params[:has_updated] === "true")
+      user.update(avatar: avatar_params[:avatar])
+
+      uploader = AvatarUploader.new(user, :avatar)
+      uploader.store!(avatar_params[:avatar])
+    end
   end
 
   private
 
   def avatar_params
-    params.require(:avatar).permit(:username, :email, :has_avatar, :avatar)
+    params.require(:avatar).permit(:username, :email, :has_avatar, :has_updated, :avatar)
   end
 end

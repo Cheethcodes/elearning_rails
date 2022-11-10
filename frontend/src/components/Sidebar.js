@@ -7,6 +7,7 @@ import { TbDashboard, TbUser } from 'react-icons/tb'
 import UserAvatar from './UserAvatar'
 import apiClient from '../services/api'
 import { Toastify } from './Toastify'
+import { AdminRouteList } from '../constants/AdminRouteList'
 
 export const Sidebar = () => {
   const { loggedInUser, profileUpdate } = useAuth()
@@ -35,10 +36,6 @@ export const Sidebar = () => {
         <div>
           <ul className='flex flex-col gap-4'>
             <li className='flex items-center gap-4'>
-              <BsHouseDoor className='text-lg' />
-              <a href='/dashboard' className='block' style={{ padding: '0' }}>Home</a>
-            </li>
-            <li className='flex items-center gap-4'>
               <TbDashboard className='text-lg' />
               <a href='/dashboard' className='block' style={{ padding: '0' }}>Dashboard</a>
             </li>
@@ -46,6 +43,20 @@ export const Sidebar = () => {
               <TbUser className='text-lg' />
               <a href='/users' className='block' style={{ padding: '0' }}>Community</a>
             </li>
+            {
+              loggedInUser.is_admin === 'true' ?
+                AdminRouteList.map((item, index) => {
+                  return (
+                    <li key={index} className='flex items-center gap-4'>
+                      <item.icon className='text-lg' />
+                      <a href={item.url} className='block' style={{ padding: '0' }}>{item.name}</a>
+                    </li>
+                  )
+                })
+
+                :
+                <></>
+            }
             <li className='flex items-center gap-4'>
               <BsGear className='text-lg' />
               <a href='/settings' className='block' style={{ padding: '0' }}>Settings</a>
@@ -60,10 +71,10 @@ export const Sidebar = () => {
           </div>
           <div>
             <h6 className='font-medium'>{loggedInUser.username}</h6>
-            <h6 className='text-sm'>{loggedInUser.is_admin === true ? 'Instructor' : 'Student'}</h6>
+            <h6 className='text-sm'>{loggedInUser.is_admin === 'true' ? 'Instructor' : 'Student'}</h6>
           </div>
         </div>
-        <button style={{padding: '0'}}>
+        <button style={{ padding: '0' }}>
           <AiOutlinePoweroff className='text-lg font-bold' />
         </button>
       </div>

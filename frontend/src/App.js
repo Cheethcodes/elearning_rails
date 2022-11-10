@@ -6,6 +6,8 @@ import { AuthRoute } from './routes/AuthRoute'
 import { ProtectedRoute } from './routes/ProtectedRoute'
 import { ProtectedLayout } from './components/layouts/ProtectedLayout'
 import { ToastContainer } from 'react-toastify'
+import { AdminRouteList } from './constants/AdminRouteList'
+import { AdminRoute } from './routes/AdminRoute'
 
 export const App = () => {
   return (
@@ -31,6 +33,19 @@ export const App = () => {
                     <item.page />
                   </ProtectedLayout>
                 </ProtectedRoute>
+              } />
+            )
+          })
+        }
+        {
+          AdminRouteList.map((item, index) => {
+            return (
+              <Route key={index} path={item.url} element={
+                <AdminRoute>
+                  <ProtectedLayout>
+                    <item.page />
+                  </ProtectedLayout>
+                </AdminRoute>
               } />
             )
           })

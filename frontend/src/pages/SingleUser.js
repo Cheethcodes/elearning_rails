@@ -14,7 +14,7 @@ export const SingleUser = () => {
     following: 0,
   })
   const [isFollowing, setIsFollowing] = useState(false)
-  const [isUpdated, setIsUpdated] = useState(true)
+  const [update, setUpdate] = useState(true)
 
   const dataProfile = useMemo(() => {
     apiClient({
@@ -43,8 +43,8 @@ export const SingleUser = () => {
       Toastify('error', error.response.data)
     })
 
-    setIsUpdated(false)
-  }, [isUpdated])
+    setUpdate(false)
+  }, [update])
 
   const dataCounter = useMemo(() => {
     apiClient({
@@ -56,8 +56,8 @@ export const SingleUser = () => {
       Toastify('error', error.response.data)
     })
 
-    setIsUpdated(false)
-  }, [isUpdated])
+    setUpdate(false)
+  }, [update])
 
   const toggleFollow = () => {
     apiClient({
@@ -71,9 +71,9 @@ export const SingleUser = () => {
       }
     }).then(response => {
       Toastify('success', `Successfully ${isFollowing ? 'unfollowed' : 'followed'} ${profile.username}`)
-      setIsUpdated(true)
+      setUpdate(true)
     }).catch(error => {
-      console.log(error)
+      Toastify('error', error.response.data)
     })
   }
 

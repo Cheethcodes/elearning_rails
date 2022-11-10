@@ -24,7 +24,23 @@ export const UserMgmt = () => {
     setUpdate(false)
   }, [update])
 
-  const toggleAdminRole = () => {
+  const toggleAdminRole = (id, is_admin) => {
+    apiClient({
+      method: 'patch',
+      url: '/api/v1/users/update_role',
+      data: {
+        user: {
+          controls: loggedInUser.is_admin,
+          id: id,
+          is_admin: !is_admin,
+        }
+      }
+    }).then(response => {
+      Toastify('success', 'Successfully updated user!')
+      setUpdate(true)
+    }).catch(error => {
+      console.log(error)
+    })
   }
 
   return (
@@ -43,13 +59,13 @@ export const UserMgmt = () => {
                 users.filter(user => user.id.toString() !== loggedInUser.id).map((filteredUser, index) => {
                   return (
                     <tr key={index}>
-                      <td className={`py-2 px-4${index%2 === 1 ? ' bg-slate-200' : ''}`}>{filteredUser.username}</td>
-                      <td className={`py-2 px-4${index%2 === 1 ? ' bg-slate-200' : ''}`}>
+                      <td className={`py-2 px-4${index % 2 === 1 ? ' bg-slate-200' : ''}`}>{filteredUser.username}</td>
+                      <td className={`py-2 px-4${index % 2 === 1 ? ' bg-slate-200' : ''}`}>
                         <div className='flex items-center gap-1'>
                           <button
                             type='button'
                             className={`py-1 px-4 text-white border hover:bg-transparent ${filteredUser.is_admin ? 'bg-danger border-danger hover:text-danger' : 'bg-success border-success hover:text-success'}`}
-                            onClick={() => toggleAdminRole(filteredUser.id)}>
+                            onClick={() => toggleAdminRole(filteredUser.id, filteredUser.is_admin)}>
                             {
                               filteredUser.is_admin ? 'Remove instructor privilege' : 'Make instructor'
                             }

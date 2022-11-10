@@ -1,18 +1,45 @@
-import React, { useState } from 'react'
-import { CategoryMgmtModal } from './CategoryMgmtModal'
+import React, { useMemo, useState } from 'react'
+import { Toastify } from '../../components/Toastify'
+import apiClient from '../../services/api'
+import { CategoryMgmtModal } from '../../components/CategoryMgmtModal'
+import { FaPenAlt, FaTrashAlt } from 'react-icons/fa'
+import { AdminPanel } from '../../components/AdminPanel'
 
 export const CategoryMgmt = () => {
   const [modalActive, setModalActive] = useState(false)
   const [actionType, setActionType] = useState('new')
+  const [update, setUpdate] = useState(true)
+  const [categories, setCategories] = useState([])
+  const [currentCategory, setCurrentCategory] = useState(0)
 
-  const showModal = (type) => {
+  const showModal = (type, id) => {
     setActionType(type)
     setModalActive(true)
+    setCurrentCategory(id)
   }
+
+  const data = useMemo(() => {
+    apiClient({
+      method: 'get',
+      url: '/api/v1/categories'
+    }).then(response => {
+      setCategories(response.data)
+    }).catch(error => {
+      Toastify('error', error.response.data)
+    })
+
+    setUpdate(false)
+  }, [update])
 
   return (
     <div>
-      <CategoryMgmtModal isActive={modalActive} modalAction={setModalActive} actionType={actionType} />
+      <CategoryMgmtModal
+        isActive={modalActive}
+        modalAction={setModalActive}
+        actionType={actionType}
+        currentCategory={currentCategory}
+        updateDataAction={setUpdate}
+        setCurrentCategory={setCurrentCategory} />
       <div className='flex justify-between items-center'>
         <h4 className='text-lg text-primary font-bold'>Category Management Console</h4>
         <button
@@ -21,9 +48,39 @@ export const CategoryMgmt = () => {
           Add Category
         </button>
       </div>
-      <hr className='mt-1 mb-4' />
-      <div className='console-container'>
-      </div>
+      <AdminPanel
+        tableHeaders={['Title', 'Action']}>
+        {
+          categories.length > 0 ?
+            categories.map((category, index) => {
+              return (
+                <tr key={index}>
+                  <td className={`py-2 px-4${index % 2 === 1 ? ' bg-slate-200' : ''}`}>{category.name}</td>
+                  <td className={`py-2 px-4${index % 2 === 1 ? ' bg-slate-200' : ''}`}>
+                    <div className='flex items-center gap-1'>
+                      <button
+                        type='button'
+                        className={`py-2 px-3 text-white border hover:bg-transparent bg-success border-success hover:text-success`}
+                        onClick={() => showModal('update', category.id)}>
+                        <FaPenAlt />
+                      </button>
+                      <button
+                        type='button'
+                        className={`py-2 px-3 text-white border hover:bg-transparent bg-danger border-danger hover:text-danger`}
+                        onClick={() => showModal('update', category.id)}>
+                        <FaTrashAlt />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              )
+            })
+            :
+            <tr>
+              <td colSpan='2'>No users to show</td>
+            </tr>
+        }
+      </AdminPanel>
     </div>
   )
 }

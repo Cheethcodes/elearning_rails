@@ -1,5 +1,6 @@
 import { UserMgmt } from "../pages/admin/UserMgmt";
-import { MdOutlinePeopleAlt } from 'react-icons/md'
+import { MdBookOnline, MdOutlinePeopleAlt } from 'react-icons/md'
+import { CategoryMgmt } from "../pages/admin/CategoryMgmt";
 
 export const AdminRouteList = [
   {
@@ -7,5 +8,11 @@ export const AdminRouteList = [
     url: '/user-management',
     icon: MdOutlinePeopleAlt,
     page: UserMgmt,
+  },
+  {
+    name: 'Category Management',
+    url: '/category-management',
+    icon: MdBookOnline,
+    page: CategoryMgmt,
   },
 ]

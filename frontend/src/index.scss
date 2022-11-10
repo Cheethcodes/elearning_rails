@@ -28,7 +28,8 @@ $danger-light: #F9DEDC;
 html,
 body {
   background-color: whitesmoke;
-  scrollbar-gutter: stable
+  scrollbar-gutter: stable;
+  position: relative;
 }
 
 p,
@@ -39,6 +40,7 @@ table,
 span,
 ul,
 input,
+textarea,
 i {
   font-size: 12px;
 }
@@ -52,7 +54,8 @@ input[type=submit] {
 }
 
 input,
-select {
+select,
+textarea {
   padding: 5px 16px;
 }
 
@@ -60,7 +63,8 @@ select {
   border-radius: 3px;
 }
 
-input {
+input,
+textarea {
   min-width: 80px;
 }
 
@@ -144,5 +148,25 @@ input {
       width: 200px;
       height: 200px;
     }
+  }
+}
+
+.modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(gray, 0.5);
+  backdrop-filter: blur(5px);
+  z-index: 90;
+
+  .form {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 250px;
+    width: 35vw;
+    box-shadow: 0 0 12px rgba(72, 72, 72, 0.49);
   }
 }

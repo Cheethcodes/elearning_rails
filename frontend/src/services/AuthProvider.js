@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
     id: Cookies.get('user_id') ? Cookies.get('user_id') : '',
     username: Cookies.get('user_username') ? Cookies.get('user_username') : '',
     email: Cookies.get('user_email') ? Cookies.get('user_email') : '',
-    is_admin: Cookies.get('user_admin') ? Cookies.get('user_admin') : '',
+    is_admin: Cookies.get('user_admin') ? Cookies.get('user_admin') : 'false',
   })
   const [profileUpdate, setProfileUpdate] = useState(true)
 

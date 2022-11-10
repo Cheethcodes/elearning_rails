@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      resources :users
+      resources :users do
+        collection do
+          patch :update_role
+        end
+      end
       resources :user_follows do
         collection do
           post :validate_follow

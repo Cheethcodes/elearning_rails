@@ -22,9 +22,20 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  def update_role
+    if (update_role_params[:controls] === "true")
+      user = User.find(update_role_params[:id])
+      user.update(is_admin: update_role_params[:is_admin])
+    end
+  end
+
   private
 
   def avatar_params
     params.require(:avatar).permit(:username, :email, :has_avatar, :has_updated, :avatar)
+  end
+
+  def update_role_params
+    params.require(:user).permit(:controls, :id, :is_admin)
   end
 end

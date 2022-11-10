@@ -13,6 +13,7 @@ Rails.application.routes.draw do
           post :unfollow
         end
       end
+      resources :categories
     end
   end
 

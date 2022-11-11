@@ -18,6 +18,11 @@ class Api::V1::WordsController < ApplicationController
     Word.create(word_params)
   end
 
+  def update
+    word = Word.find(params[:id])
+    word.update(word_params)
+  end
+
   private
 
   def word_params

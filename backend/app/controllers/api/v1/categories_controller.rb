@@ -20,7 +20,7 @@ class Api::V1::CategoriesController < ApplicationController
 
   def destroy
     category = Category.find(params[:id])
-    category.delete
+    category.destroy
   end
 
   private

@@ -3,7 +3,7 @@ import { GiHamburgerMenu } from 'react-icons/gi'
 import { AiOutlinePoweroff } from 'react-icons/ai'
 import { useAuth } from '../services/AuthProvider'
 import { BsGear, BsHouseDoor } from 'react-icons/bs'
-import { TbDashboard, TbUser } from 'react-icons/tb'
+import { TbBook2, TbDashboard, TbUser } from 'react-icons/tb'
 import UserAvatar from './UserAvatar'
 import apiClient from '../services/api'
 import { Toastify } from './Toastify'
@@ -42,6 +42,10 @@ export const Sidebar = () => {
             <li className='flex items-center gap-4'>
               <TbUser className='text-lg' />
               <a href='/users' className='block' style={{ padding: '0' }}>Community</a>
+            </li>
+            <li className='flex items-center gap-4'>
+              <TbBook2 className='text-lg' />
+              <a href='/lessons' className='block' style={{ padding: '0' }}>Lessons</a>
             </li>
             {
               loggedInUser.is_admin === 'true' ?

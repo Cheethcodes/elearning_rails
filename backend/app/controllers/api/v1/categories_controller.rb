@@ -18,6 +18,11 @@ class Api::V1::CategoriesController < ApplicationController
     category.update(category_params)
   end
 
+  def destroy
+    category = Category.find(params[:id])
+    category.destroy
+  end
+
   private
 
   def category_params

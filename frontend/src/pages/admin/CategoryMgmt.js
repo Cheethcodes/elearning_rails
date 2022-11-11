@@ -90,7 +90,7 @@ export const CategoryMgmt = () => {
             })
             :
             <tr>
-              <td colSpan='2'>No users to show</td>
+              <td colSpan='2'>No categories to show</td>
             </tr>
         }
       </AdminPanel>

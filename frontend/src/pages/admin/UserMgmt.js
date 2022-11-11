@@ -44,8 +44,7 @@ export const UserMgmt = () => {
   return (
     <div>
       <h4 className='text-lg text-primary font-bold'>User Management Console</h4>
-      <AdminPanel
-        tableHeaders={['Username', 'Action']} >
+      <AdminPanel tableHeaders={['Username', 'Action']} >
         {
           users.length > 1 ?
             users.filter(user => user.id.toString() !== loggedInUser.id).map((filteredUser, index) => {

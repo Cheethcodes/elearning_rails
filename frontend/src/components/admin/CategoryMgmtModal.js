@@ -1,8 +1,8 @@
 import React, { useMemo, useState } from 'react'
-import { FaTimes } from 'react-icons/fa'
-import { FieldsWithValidation } from './FieldsWithValidation'
-import { Toastify } from './Toastify'
-import apiClient from '../services/api'
+import { FieldsWithValidation } from '../FieldsWithValidation'
+import { Toastify } from '../Toastify'
+import apiClient from '../../services/api'
+import { PopupModal } from '../PopupModal'
 
 export const CategoryMgmtModal = ({ isActive, modalAction, actionType, currentCategory, setCurrentCategory, updateDataAction }) => {
   const [category, setCategory] = useState({
@@ -68,35 +68,32 @@ export const CategoryMgmtModal = ({ isActive, modalAction, actionType, currentCa
   }
 
   return (
-    <div className={`modal ${isActive ? 'block' : 'hidden'}`}>
-      <div className='form px-10 py-6 bg-white absolute rounded-lg flex flex-col'>
-        <div className='flex justify-between'>
-          <h4 className='text-md text-primary font-bold'>{actionType === 'update' ? category.name : 'New Category'}</h4>
-          <button className='close-icon text-lg text-danger' onClick={() => resetModal()}><FaTimes className='font-bold' /></button>
+    <PopupModal
+      isActive={isActive}
+      title={actionType === 'update' ? category.name : 'New Category'}
+      closeAction={resetModal}>
+      <form onSubmit={handleSubmit} className='flex flex-col grow'>
+        <div className='flex flex-col gap-4 grow'>
+          <FieldsWithValidation
+            type='text'
+            id='name'
+            placeholder='Title'
+            className=' border border-slate-300'
+            onChangeAction={handleOnChange}
+            value={category.name}
+            required={true}
+            errorMessage={errorMessage.name} />
+          <textarea id='description' onChange={handleOnChange} value={category.description} placeholder='Description' className='w-full py-2 px-5 outline-0 bg-white border border-slate-300' />
         </div>
-        <hr className='mt-1 mb-4' />
-        <form onSubmit={handleSubmit} className='flex flex-col grow'>
-          <div className='flex flex-col gap-4 grow'>
-            <FieldsWithValidation
-              type='text'
-              id='name'
-              placeholder='Title'
-              className=' border border-slate-300'
-              onChangeAction={handleOnChange}
-              value={category.name}
-              required={true}
-              errorMessage={errorMessage.name} />
-            <textarea id='description' onChange={handleOnChange} value={category.description} placeholder='Description' className='w-full py-2 px-5 outline-0 bg-white border border-slate-300' />
-          </div>
-          <div className='mt-4 flex justify-end'>
-            <input
-              type='submit'
-              className='bg-primary hover:bg-transparent text-white hover:text-primary border border-primary py-3 px-5'
-              style={{ width: '180px' }}
-              value={`${actionType === 'update' ? 'Update Category' : 'Save Category'}`} />
-          </div>
-        </form>
-      </div>
-    </div>
+        <div className='mt-4 flex justify-end'>
+          <button
+            type='submit'
+            className='bg-primary hover:bg-transparent text-white hover:text-primary border border-primary py-3 px-5'
+            style={{ width: '180px' }}>
+            {`${actionType === 'update' ? 'Update Category' : 'Save Category'}`}
+          </button>
+        </div>
+      </form>
+    </PopupModal>
   )
 }

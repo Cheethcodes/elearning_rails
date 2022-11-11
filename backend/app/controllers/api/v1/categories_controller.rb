@@ -13,6 +13,11 @@ class Api::V1::CategoriesController < ApplicationController
     Category.create(category_params)
   end
 
+  def update
+    category = Category.find(params[:id])
+    category.update(category_params)
+  end
+
   private
 
   def category_params

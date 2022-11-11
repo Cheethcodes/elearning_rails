@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import apiClient from '../../services/api'
 import { CategoriesDropdown } from '../CategoriesDropdown'
 import { FieldsWithValidation } from '../FieldsWithValidation'
 import { PopupModal } from '../PopupModal'
 import { Toastify } from '../Toastify'
 
-export const WordMgmtModal = ({ isActive, modalAction, actionType }) => {
+export const WordMgmtModal = ({ isActive, modalAction, actionType, currentWord, setCurrentWord}) => {
   const [word, setWord] = useState({
     content: '',
     category_id: 0,
@@ -13,6 +13,19 @@ export const WordMgmtModal = ({ isActive, modalAction, actionType }) => {
   const [errorMessage, setErrorMessage] = useState({
     content: null,
   })
+
+  const data = useMemo(() => {
+    if (actionType === 'update' && currentWord !== 0) {
+      apiClient({
+        method: 'get',
+        url: `/api/v1/words/${currentWord}`,
+      }).then(response => {
+        setWord(response.data)
+      }).catch(error => {
+        Toastify('error', error.resposne.data)
+      })
+    }
+  }, [currentWord])
 
   const handleOnChange = (e) => {
     setWord({
@@ -51,12 +64,13 @@ export const WordMgmtModal = ({ isActive, modalAction, actionType }) => {
       category_id: 0,
     })
 
+    setCurrentWord(0)
     modalAction(false)
   }
   return (
     <PopupModal
       isActive={isActive}
-      title='New Word'
+      title={actionType === 'update' ? word.content : 'New Category'}
       closeAction={resetModal}>
       <form onSubmit={handleSubmit} className='flex flex-col grow'>
         <div className='flex flex-col gap-4 grow'>
@@ -79,7 +93,7 @@ export const WordMgmtModal = ({ isActive, modalAction, actionType }) => {
             type='submit'
             className='bg-primary hover:bg-transparent text-white hover:text-primary border border-primary py-3 px-5'
             style={{ width: '180px' }}>
-            Save Word
+            {`${actionType === 'update' ? 'Update Word' : 'Save Word'}`}
           </button>
         </div>
       </form>

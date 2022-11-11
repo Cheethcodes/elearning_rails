@@ -31,6 +31,20 @@ export const CategoryMgmt = () => {
     setUpdate(false)
   }, [update])
 
+  const handleDelete = (id, name) => {
+    if (window.confirm(`Confirm to delete ${name}.`)) {
+      apiClient({
+        method: 'delete',
+        url: `/api/v1/categories/${id}`
+      }).then(response => {
+        Toastify('success', `Successfully deleted ${name}!`)
+        setUpdate(true)
+      }).catch(error => {
+        Toastify('error', error.response.data)
+      })
+    }
+  }
+
   return (
     <div>
       <CategoryMgmtModal
@@ -67,7 +81,7 @@ export const CategoryMgmt = () => {
                       <button
                         type='button'
                         className={`py-2 px-3 text-white border hover:bg-transparent bg-danger border-danger hover:text-danger`}
-                        onClick={() => showModal('update', category.id)}>
+                        onClick={() => handleDelete(category.id, category.name)}>
                         <FaTrashAlt />
                       </button>
                     </div>

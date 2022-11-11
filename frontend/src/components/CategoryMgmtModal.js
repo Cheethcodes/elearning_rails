@@ -40,19 +40,21 @@ export const CategoryMgmtModal = ({ isActive, modalAction, actionType, currentCa
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    apiClient({
-      method: 'post',
-      url: '/api/v1/categories',
-      data: {
-        category: category
-      }
-    }).then(resposne => {
-      Toastify('success', `Successfully added ${category.name} to categories!`)
-      updateDataAction(true)
-      resetModal()
-    }).catch(error => {
-      Toastify('error', error.resposne.data)
-    })
+    if (window.confirm('Confirm to save category!')) {
+      apiClient({
+        method: actionType === 'update' ? 'patch' : 'post',
+        url: actionType === 'update' ? `/api/v1/categories/${currentCategory}` : '/api/v1/categories',
+        data: {
+          category: category
+        }
+      }).then(resposne => {
+        Toastify('success', `Successfully ${actionType === 'update' ? 'updated' : 'added'} ${category.name}!`)
+        updateDataAction(true)
+        resetModal()
+      }).catch(error => {
+        Toastify('error', error.resposne.data)
+      })
+    }
   }
 
   const resetModal = () => {
@@ -91,7 +93,7 @@ export const CategoryMgmtModal = ({ isActive, modalAction, actionType, currentCa
               type='submit'
               className='bg-primary hover:bg-transparent text-white hover:text-primary border border-primary py-3 px-5'
               style={{ width: '180px' }}
-              value='Save Category' />
+              value={`${actionType === 'update' ? 'Update Category' : 'Save Category'}`} />
           </div>
         </form>
       </div>

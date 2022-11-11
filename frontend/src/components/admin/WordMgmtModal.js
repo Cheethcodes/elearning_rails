@@ -5,7 +5,7 @@ import { FieldsWithValidation } from '../FieldsWithValidation'
 import { PopupModal } from '../PopupModal'
 import { Toastify } from '../Toastify'
 
-export const WordMgmtModal = ({ isActive, modalAction, actionType, currentWord, setCurrentWord}) => {
+export const WordMgmtModal = ({ isActive, modalAction, actionType, currentWord, setCurrentWord, updateDataAction}) => {
   const [word, setWord] = useState({
     content: '',
     category_id: 0,
@@ -37,23 +37,24 @@ export const WordMgmtModal = ({ isActive, modalAction, actionType, currentWord, 
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    if (window.confirm('Confirm to save category!')) {
+    if (window.confirm('Confirm to save word!')) {
       if (word.category_id === 0) {
         Toastify('error', 'Please select a category!')
         return
       }
 
       apiClient({
-        method: 'post',
-        url: '/api/v1/words',
+        method: actionType === 'update' ? 'patch' : 'post',
+        url: actionType === 'update' ? `/api/v1/words/${currentWord}` : '/api/v1/words',
         data: {
           word: word
         }
       }).then(resposne => {
-        Toastify('success', `Successfully added ${word.content}!`)
+        Toastify('success', `Successfully ${actionType === 'update' ? 'updated' : 'added'} ${word.content}!`)
+        updateDataAction(true)
         resetModal()
       }).catch(error => {
-        Toastify('error', error.resposne.data)
+        Toastify('error', error.response.data)
       })
     }
   }

@@ -38,6 +38,7 @@ export const WordMgmt = () => {
         modalAction={setModalActive}
         actionType={actionType}
         currentWord={currentWord}
+        updateDataAction={setUpdate}
         setCurrentWord={setCurrentWord} />
       <div className='flex justify-between items-center'>
         <h4 className='text-lg text-primary font-bold'>Words Management Console</h4>
@@ -60,7 +61,7 @@ export const WordMgmt = () => {
                       <button
                         type='button'
                         className={`py-2 px-3 text-white border hover:bg-transparent bg-success border-success hover:text-success`}
-                        onClick={() => showModal('update', word.category.id)}>
+                        onClick={() => showModal('update', word.id)}>
                         <FaPenAlt />
                       </button>
                     </div>

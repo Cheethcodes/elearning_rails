@@ -124,7 +124,7 @@ export const Register = () => {
         id: response.data.data.id,
         username: response.data.data.username,
         email: response.data.data.email,
-        is_admin: response.data.data.is_admin,
+        is_admin: response.data.data.is_admin.toString(),
       })
 
       Cookies.set('user_id', response.data.data.id)

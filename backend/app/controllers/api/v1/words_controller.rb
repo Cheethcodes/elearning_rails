@@ -23,6 +23,11 @@ class Api::V1::WordsController < ApplicationController
     word.update(word_params)
   end
 
+  def destroy
+    word = Word.find(params[:id])
+    word.destroy
+  end
+
   private
 
   def word_params

@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react'
-import { FaPenAlt } from 'react-icons/fa'
+import { FaPenAlt, FaTrashAlt } from 'react-icons/fa'
 import { WordMgmtModal } from '../../components/admin/WordMgmtModal'
 import { AdminPanel } from '../../components/AdminPanel'
 import { Toastify } from '../../components/Toastify'
@@ -30,6 +30,20 @@ export const WordMgmt = () => {
 
     setUpdate(false)
   }, [update])
+
+  const handleDelete = (id, name) => {
+    if (window.confirm(`Confirm to delete ${name}.`)) {
+      apiClient({
+        method: 'delete',
+        url: `/api/v1/words/${id}`
+      }).then(response => {
+        Toastify('success', `Successfully deleted ${name}!`)
+        setUpdate(true)
+      }).catch(error => {
+        Toastify('error', error.response.data)
+      })
+    }
+  }
 
   return (
     <div>
@@ -63,6 +77,12 @@ export const WordMgmt = () => {
                         className={`py-2 px-3 text-white border hover:bg-transparent bg-success border-success hover:text-success`}
                         onClick={() => showModal('update', word.id)}>
                         <FaPenAlt />
+                      </button>
+                      <button
+                        type='button'
+                        className={`py-2 px-3 text-white border hover:bg-transparent bg-danger border-danger hover:text-danger`}
+                        onClick={() => handleDelete(word.id, word.content)}>
+                        <FaTrashAlt />
                       </button>
                     </div>
                   </td>

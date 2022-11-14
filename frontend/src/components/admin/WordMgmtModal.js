@@ -5,13 +5,31 @@ import { FieldsWithValidation } from '../FieldsWithValidation'
 import { PopupModal } from '../PopupModal'
 import { Toastify } from '../Toastify'
 
-export const WordMgmtModal = ({ isActive, modalAction, actionType, currentWord, setCurrentWord, updateDataAction}) => {
+export const WordMgmtModal = ({ isActive, modalAction, actionType, currentWord, setCurrentWord, updateDataAction }) => {
   const [word, setWord] = useState({
     content: '',
     category_id: 0,
   })
   const [errorMessage, setErrorMessage] = useState({
     content: null,
+  })
+  const [choices, setChoices] = useState({
+    choice_1: {
+      content: '',
+      correct: false
+    },
+    choice_2: {
+      content: '',
+      correct: false
+    },
+    choice_3: {
+      content: '',
+      correct: false
+    },
+    choice_4: {
+      content: '',
+      correct: false
+    },
   })
 
   const data = useMemo(() => {
@@ -47,9 +65,14 @@ export const WordMgmtModal = ({ isActive, modalAction, actionType, currentWord, 
         method: actionType === 'update' ? 'patch' : 'post',
         url: actionType === 'update' ? `/api/v1/words/${currentWord}` : '/api/v1/words',
         data: {
-          word: word
+          word: {
+            content: word.content,
+            category_id: word.category_id,
+            choices: JSON.stringify([choices.choice_1, choices.choice_2, choices.choice_3, choices.choice_4])
+          }
         }
       }).then(resposne => {
+        console.log(resposne.data)
         Toastify('success', `Successfully ${actionType === 'update' ? 'updated' : 'added'} ${word.content}!`)
         updateDataAction(true)
         resetModal()
@@ -59,10 +82,63 @@ export const WordMgmtModal = ({ isActive, modalAction, actionType, currentWord, 
     }
   }
 
+  const handleAnswerContent = (e, type) => {
+    if (type === 'correct') {
+      const newState = {
+        choice_1: {
+          content: type === 'content' && e.target.getAttribute('data-target') === 'choice_1' ? e.target.value : choices.choice_1.content,
+          correct: type === 'correct' && e.target.getAttribute('data-target') === 'choice_1' ? true : false,
+        },
+        choice_2: {
+          content: type === 'content' && e.target.getAttribute('data-target') === 'choice_2' ? e.target.value : choices.choice_2.content,
+          correct: type === 'correct' && e.target.getAttribute('data-target') === 'choice_2' ? true : false,
+        },
+        choice_3: {
+          content: type === 'content' && e.target.getAttribute('data-target') === 'choice_3' ? e.target.value : choices.choice_3.content,
+          correct: type === 'correct' && e.target.getAttribute('data-target') === 'choice_3' ? true : false,
+        },
+        choice_4: {
+          content: type === 'content' && e.target.getAttribute('data-target') === 'choice_4' ? e.target.value : choices.choice_4.content,
+          correct: type === 'correct' && e.target.getAttribute('data-target') === 'choice_4' ? true : false,
+        },
+      }
+
+      setChoices(newState)
+      return
+    }
+
+    setChoices({
+      ...choices,
+      [e.target.getAttribute('data-target')]: {
+        ...choices[e.target.getAttribute('data-target')],
+        [type]: type === 'correct' ? e.target.checked : e.target.value
+      }
+    })
+  }
+
   const resetModal = () => {
     setWord({
       content: '',
       category_id: 0,
+    })
+
+    setChoices({
+      choice_1: {
+        content: '',
+        correct: false
+      },
+      choice_2: {
+        content: '',
+        correct: false
+      },
+      choice_3: {
+        content: '',
+        correct: false
+      },
+      choice_4: {
+        content: '',
+        correct: false
+      },
     })
 
     setCurrentWord(0)
@@ -84,10 +160,60 @@ export const WordMgmtModal = ({ isActive, modalAction, actionType, currentWord, 
             value={word.content}
             required={true}
             errorMessage={errorMessage.content} />
-            <CategoriesDropdown
-              id='category_id'
-              action={handleOnChange}
-              currentValue={word.category_id} />
+          <CategoriesDropdown
+            id='category_id'
+            action={handleOnChange}
+            currentValue={word.category_id} />
+          <div className='border border-slate p-2'>
+            <table>
+              <tbody>
+                <tr>
+                  <td className='p-1'>Choices</td>
+                  <td className='p-1 pl-2'>Set as correct answer</td>
+                </tr>
+                <tr>
+                  <td className='p-1'>
+                    <input type='text' data-target='choice_1' placeholder='Choice 1' className='border border-slate-300' onChange={(e) => handleAnswerContent(e, 'content')} value={choices.choice_1.content} required={true} />
+                  </td>
+                  <td className='p-1 pl-2'>
+                    <div className='flex'>
+                      <input type='checkbox' data-target='choice_1' onChange={(e) => handleAnswerContent(e, 'correct')} checked={choices.choice_1.correct} />
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td className='p-1'>
+                    <input type='text' data-target='choice_2' placeholder='Choice 2' className='border border-slate-300' onChange={(e) => handleAnswerContent(e, 'content')} value={choices.choice_2.content} required={true} />
+                  </td>
+                  <td className='p-1 pl-2'>
+                    <div className='flex'>
+                      <input type='checkbox' data-target='choice_2' onChange={(e) => handleAnswerContent(e, 'correct')} checked={choices.choice_2.correct} />
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td className='p-1'>
+                    <input type='text' data-target='choice_3' placeholder='Choice 3' className='border border-slate-300' onChange={(e) => handleAnswerContent(e, 'content')} value={choices.choice_3.content} required={true} />
+                  </td>
+                  <td className='p-1 pl-2'>
+                    <div className='flex'>
+                      <input type='checkbox' data-target='choice_3' onChange={(e) => handleAnswerContent(e, 'correct')} checked={choices.choice_3.correct} />
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td className='p-1'>
+                    <input type='text' data-target='choice_4' placeholder='Choice 4' className='border border-slate-300' onChange={(e) => handleAnswerContent(e, 'content')} value={choices.choice_4.content} required={true} />
+                  </td>
+                  <td className='p-1 pl-2'>
+                    <div className='flex'>
+                      <input type='checkbox' data-target='choice_4' onChange={(e) => handleAnswerContent(e, 'correct')} checked={choices.choice_4.correct} />
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
         <div className='mt-4 flex justify-end'>
           <button

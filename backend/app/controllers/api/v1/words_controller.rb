@@ -15,7 +15,13 @@ class Api::V1::WordsController < ApplicationController
   end
 
   def create
-    Word.create(word_params)
+    word = Word.create(content: word_params[:content], category_id: word_params[:category_id])
+
+    choice_list = JSON.parse(word_params[:choices])
+
+    for choice in choice_list do
+      Choice.create(content: choice["content"], correct: choice["correct"], word_id: word.id)
+    end
   end
 
   def update
@@ -31,6 +37,6 @@ class Api::V1::WordsController < ApplicationController
   private
 
   def word_params
-    params.require(:word).permit(:content, :category_id)
+    params.require(:word).permit(:content, :category_id, :choices)
   end
 end

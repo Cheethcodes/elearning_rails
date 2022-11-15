@@ -15,13 +15,14 @@ class Api::V1::WordsController < ApplicationController
   end
 
   def create
-    word = Word.create(content: word_params[:content], category_id: word_params[:category_id])
-
     choice_list = JSON.parse(word_params[:choices])
+    create_params = {
+        content: word_params[:content],
+        category_id: word_params[:category_id],
+        choices_attributes: choice_list
+    }
 
-    for choice in choice_list do
-      Choice.create(content: choice["content"], correct: choice["correct"], word_id: word.id)
-    end
+    Word.create(create_params)
   end
 
   def update

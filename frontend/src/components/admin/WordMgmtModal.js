@@ -72,7 +72,6 @@ export const WordMgmtModal = ({ isActive, modalAction, actionType, currentWord, 
           }
         }
       }).then(resposne => {
-        console.log(resposne.data)
         Toastify('success', `Successfully ${actionType === 'update' ? 'updated' : 'added'} ${word.content}!`)
         updateDataAction(true)
         resetModal()
@@ -147,7 +146,7 @@ export const WordMgmtModal = ({ isActive, modalAction, actionType, currentWord, 
   return (
     <PopupModal
       isActive={isActive}
-      title={actionType === 'update' ? word.content : 'New Category'}
+      title={actionType === 'update' ? word.content : 'New Word'}
       closeAction={resetModal}>
       <form onSubmit={handleSubmit} className='flex flex-col grow'>
         <div className='flex flex-col gap-4 grow'>

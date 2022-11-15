@@ -68,7 +68,7 @@ export const WordMgmtModal = ({ isActive, modalAction, actionType, currentWord, 
           word: {
             content: word.content,
             category_id: word.category_id,
-            choices: JSON.stringify([choices.choice_1, choices.choice_2, choices.choice_3, choices.choice_4])
+            choices_attributes: [choices.choice_1, choices.choice_2, choices.choice_3, choices.choice_4]
           }
         }
       }).then(resposne => {
@@ -170,46 +170,22 @@ export const WordMgmtModal = ({ isActive, modalAction, actionType, currentWord, 
                   <td className='p-1'>Choices</td>
                   <td className='p-1 pl-2'>Set as correct answer</td>
                 </tr>
-                <tr>
-                  <td className='p-1'>
-                    <input type='text' data-target='choice_1' placeholder='Choice 1' className='border border-slate-300' onChange={(e) => handleAnswerContent(e, 'content')} value={choices.choice_1.content} required={true} />
-                  </td>
-                  <td className='p-1 pl-2'>
-                    <div className='flex'>
-                      <input type='checkbox' data-target='choice_1' onChange={(e) => handleAnswerContent(e, 'correct')} checked={choices.choice_1.correct} />
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td className='p-1'>
-                    <input type='text' data-target='choice_2' placeholder='Choice 2' className='border border-slate-300' onChange={(e) => handleAnswerContent(e, 'content')} value={choices.choice_2.content} required={true} />
-                  </td>
-                  <td className='p-1 pl-2'>
-                    <div className='flex'>
-                      <input type='checkbox' data-target='choice_2' onChange={(e) => handleAnswerContent(e, 'correct')} checked={choices.choice_2.correct} />
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td className='p-1'>
-                    <input type='text' data-target='choice_3' placeholder='Choice 3' className='border border-slate-300' onChange={(e) => handleAnswerContent(e, 'content')} value={choices.choice_3.content} required={true} />
-                  </td>
-                  <td className='p-1 pl-2'>
-                    <div className='flex'>
-                      <input type='checkbox' data-target='choice_3' onChange={(e) => handleAnswerContent(e, 'correct')} checked={choices.choice_3.correct} />
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td className='p-1'>
-                    <input type='text' data-target='choice_4' placeholder='Choice 4' className='border border-slate-300' onChange={(e) => handleAnswerContent(e, 'content')} value={choices.choice_4.content} required={true} />
-                  </td>
-                  <td className='p-1 pl-2'>
-                    <div className='flex'>
-                      <input type='checkbox' data-target='choice_4' onChange={(e) => handleAnswerContent(e, 'correct')} checked={choices.choice_4.correct} />
-                    </div>
-                  </td>
-                </tr>
+                {
+                  Object.keys(choices).map((item, index) => {
+                    return (
+                      <tr key={index}>
+                        <td>
+                          <input type='text' data-target={`choice_${index + 1}`} placeholder={`Choice ${index + 1}`} className='border border-slate-300' onChange={(e) => handleAnswerContent(e, 'content')} value={choices[item].content} required={true} />
+                        </td>
+                        <td className='p-1 pl-2'>
+                          <div className='flex'>
+                            <input type='checkbox' data-target={`choice_${index + 1}`} onChange={(e) => handleAnswerContent(e, 'correct')} checked={choices[item].correct} />
+                          </div>
+                        </td>
+                      </tr>
+                    )
+                  })
+                }
               </tbody>
             </table>
           </div>

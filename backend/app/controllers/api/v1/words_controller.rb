@@ -31,6 +31,6 @@ class Api::V1::WordsController < ApplicationController
   private
 
   def word_params
-    params.require(:word).permit(:content, :category_id)
+    params.require(:word).permit(:content, :category_id, choices_attributes:[:content, :correct, :id])
   end
 end

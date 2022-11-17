@@ -11,7 +11,7 @@ class Api::V1::WordsController < ApplicationController
 
   def show
     word = Word.find(params[:id])
-    render json: word
+    render json: word.to_json(include: [:choices])
   end
 
   def create
@@ -20,7 +20,7 @@ class Api::V1::WordsController < ApplicationController
 
   def update
     word = Word.find(params[:id])
-    word.update(word_params)
+    word.update!(word_params)
   end
 
   def destroy
@@ -31,6 +31,6 @@ class Api::V1::WordsController < ApplicationController
   private
 
   def word_params
-    params.require(:word).permit(:content, :category_id, choices_attributes:[:content, :correct, :id])
+    params.require(:word).permit(:content, :category_id, choices_attributes: [:id, :content, :correct])
   end
 end

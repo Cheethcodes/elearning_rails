@@ -15,20 +15,24 @@ export const WordMgmtModal = ({ isActive, modalAction, actionType, currentWord, 
   })
   const [choices, setChoices] = useState({
     choice_1: {
+      id: 0,
       content: '',
-      correct: false
+      correct: false,
     },
     choice_2: {
+      id: 0,
       content: '',
-      correct: false
+      correct: false,
     },
     choice_3: {
+      id: 0,
       content: '',
-      correct: false
+      correct: false,
     },
     choice_4: {
+      id: 0,
       content: '',
-      correct: false
+      correct: false,
     },
   })
 
@@ -39,6 +43,28 @@ export const WordMgmtModal = ({ isActive, modalAction, actionType, currentWord, 
         url: `/api/v1/words/${currentWord}`,
       }).then(response => {
         setWord(response.data)
+        setChoices({
+          choice_1: {
+            id: response.data.choices[0].id,
+            content: response.data.choices[0].content,
+            correct: response.data.choices[0].correct,
+          },
+          choice_2: {
+            id: response.data.choices[1].id,
+            content: response.data.choices[1].content,
+            correct: response.data.choices[1].correct,
+          },
+          choice_3: {
+            id: response.data.choices[2].id,
+            content: response.data.choices[2].content,
+            correct: response.data.choices[2].correct,
+          },
+          choice_4: {
+            id: response.data.choices[3].id,
+            content: response.data.choices[3].content,
+            correct: response.data.choices[3].correct,
+          },
+        })
       }).catch(error => {
         Toastify('error', error.resposne.data)
       })
@@ -81,38 +107,41 @@ export const WordMgmtModal = ({ isActive, modalAction, actionType, currentWord, 
     }
   }
 
-  const handleAnswerContent = (e, type) => {
-    if (type === 'correct') {
-      const newState = {
-        choice_1: {
-          content: type === 'content' && e.target.getAttribute('data-target') === 'choice_1' ? e.target.value : choices.choice_1.content,
-          correct: type === 'correct' && e.target.getAttribute('data-target') === 'choice_1' ? true : false,
-        },
-        choice_2: {
-          content: type === 'content' && e.target.getAttribute('data-target') === 'choice_2' ? e.target.value : choices.choice_2.content,
-          correct: type === 'correct' && e.target.getAttribute('data-target') === 'choice_2' ? true : false,
-        },
-        choice_3: {
-          content: type === 'content' && e.target.getAttribute('data-target') === 'choice_3' ? e.target.value : choices.choice_3.content,
-          correct: type === 'correct' && e.target.getAttribute('data-target') === 'choice_3' ? true : false,
-        },
-        choice_4: {
-          content: type === 'content' && e.target.getAttribute('data-target') === 'choice_4' ? e.target.value : choices.choice_4.content,
-          correct: type === 'correct' && e.target.getAttribute('data-target') === 'choice_4' ? true : false,
-        },
-      }
-
-      setChoices(newState)
-      return
-    }
-
+  const handleChoiceChange = (e) => {
     setChoices({
       ...choices,
       [e.target.getAttribute('data-target')]: {
         ...choices[e.target.getAttribute('data-target')],
-        [type]: type === 'correct' ? e.target.checked : e.target.value
+        content: e.target.value
       }
     })
+  }
+
+  const handleCorrectChoiceChnage = (e) => {
+    const newState = {
+      choice_1: {
+        id: choices.choice_1.id,
+        content: choices.choice_1.content,
+        correct: e.target.getAttribute('data-target') === 'choice_1' ? true : false,
+      },
+      choice_2: {
+        id: choices.choice_2.id,
+        content: choices.choice_2.content,
+        correct: e.target.getAttribute('data-target') === 'choice_2' ? true : false,
+      },
+      choice_3: {
+        id: choices.choice_3.id,
+        content: choices.choice_3.content,
+        correct: e.target.getAttribute('data-target') === 'choice_3' ? true : false,
+      },
+      choice_4: {
+        id: choices.choice_4.id,
+        content: choices.choice_4.content,
+        correct: e.target.getAttribute('data-target') === 'choice_4' ? true : false,
+      },
+    }
+
+    setChoices(newState)
   }
 
   const resetModal = () => {
@@ -123,20 +152,24 @@ export const WordMgmtModal = ({ isActive, modalAction, actionType, currentWord, 
 
     setChoices({
       choice_1: {
+        id: 0,
         content: '',
-        correct: false
+        correct: false,
       },
       choice_2: {
+        id: 0,
         content: '',
-        correct: false
+        correct: false,
       },
       choice_3: {
+        id: 0,
         content: '',
-        correct: false
+        correct: false,
       },
       choice_4: {
+        id: 0,
         content: '',
-        correct: false
+        correct: false,
       },
     })
 
@@ -175,11 +208,11 @@ export const WordMgmtModal = ({ isActive, modalAction, actionType, currentWord, 
                     return (
                       <tr key={index}>
                         <td>
-                          <input type='text' data-target={`choice_${index + 1}`} placeholder={`Choice ${index + 1}`} className='border border-slate-300' onChange={(e) => handleAnswerContent(e, 'content')} value={choices[item].content} required={true} />
+                          <input type='text' data-target={`choice_${index + 1}`} placeholder={`Choice ${index + 1}`} className='border border-slate-300' onChange={handleChoiceChange} value={choices[item].content} required={true} />
                         </td>
                         <td className='p-1 pl-2'>
                           <div className='flex'>
-                            <input type='checkbox' data-target={`choice_${index + 1}`} onChange={(e) => handleAnswerContent(e, 'correct')} checked={choices[item].correct} />
+                            <input type='checkbox' data-target={`choice_${index + 1}`} onChange={handleCorrectChoiceChnage} checked={choices[item].correct} />
                           </div>
                         </td>
                       </tr>

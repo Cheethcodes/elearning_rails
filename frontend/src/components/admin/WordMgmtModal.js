@@ -15,22 +15,22 @@ export const WordMgmtModal = ({ isActive, modalAction, actionType, currentWord, 
   })
   const [choices, setChoices] = useState({
     choice_1: {
-      id: 0,
+      id: null,
       content: '',
       correct: false,
     },
     choice_2: {
-      id: 0,
+      id: null,
       content: '',
       correct: false,
     },
     choice_3: {
-      id: 0,
+      id: null,
       content: '',
       correct: false,
     },
     choice_4: {
-      id: 0,
+      id: null,
       content: '',
       correct: false,
     },
@@ -152,22 +152,22 @@ export const WordMgmtModal = ({ isActive, modalAction, actionType, currentWord, 
 
     setChoices({
       choice_1: {
-        id: 0,
+        id: null,
         content: '',
         correct: false,
       },
       choice_2: {
-        id: 0,
+        id: null,
         content: '',
         correct: false,
       },
       choice_3: {
-        id: 0,
+        id: null,
         content: '',
         correct: false,
       },
       choice_4: {
-        id: 0,
+        id: null,
         content: '',
         correct: false,
       },

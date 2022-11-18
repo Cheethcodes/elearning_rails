@@ -9,6 +9,11 @@ class Api::V1::CategoriesController < ApplicationController
     render json: category
   end
 
+  def show_words
+    words = Word.where(category_id: params[:id])
+    render json: words.to_json(include: [:choices])
+  end
+
   def create
     Category.create(category_params)
   end

@@ -176,6 +176,7 @@ export const WordMgmtModal = ({ isActive, modalAction, actionType, currentWord, 
     setCurrentWord(0)
     modalAction(false)
   }
+
   return (
     <PopupModal
       isActive={isActive}

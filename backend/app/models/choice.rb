@@ -1,7 +1,7 @@
 class Choice < ApplicationRecord
-    belongs_to :word
+  belongs_to :word
 
-    before_save do
-        word.touch
-    end
+  before_save do
+      word.touch
+  end
 end

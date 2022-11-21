@@ -1,13 +1,17 @@
-import React, { useEffect, useState } from 'react'
-import { useAuth } from '../services/AuthProvider'
+import React, { useState } from 'react'
 
-export const WordPagination = ({ currentWord, changeWord }) => {
-  const { loggedInUser } = useAuth()
+export const WordPagination = ({ currentWord, setAnswers, score, setScore }) => {
   const [hansAnswered, setHasAnswered] = useState(false)
-  const [answer, setAnswer] = useState(null)
 
-  const handleAnswerChange = () => {
-    changeWord()
+  const handleSubmit = (choiceId, correct) => {
+    setAnswers(currentData => [...currentData, {
+      word_id: currentWord.id,
+      choice_id: choiceId
+    }])
+
+    if (correct) {
+      setScore(score + 1)
+    }
   }
 
   return (
@@ -30,7 +34,7 @@ export const WordPagination = ({ currentWord, changeWord }) => {
                         :
                         <div
                           className='card p-5 flex items-center justify-center hover:bg-success_light' style={{ minHeight: '150px' }}
-                          onClick={() => handleAnswerChange()}>
+                          onClick={() => handleSubmit(choice.id, choice.correct)}>
                           <h4>{choice.content}</h4>
                         </div>
                     }

@@ -19,6 +19,8 @@ Rails.application.routes.draw do
         end
       end
       resources :words
+      resources :lessons
+      resources :answers
     end
   end
 

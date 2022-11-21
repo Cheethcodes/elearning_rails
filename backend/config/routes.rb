@@ -13,7 +13,11 @@ Rails.application.routes.draw do
           post :unfollow
         end
       end
-      resources :categories
+      resources :categories do
+        member do
+          get :show_words
+        end
+      end
       resources :words
     end
   end

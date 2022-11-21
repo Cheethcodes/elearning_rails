@@ -4,11 +4,6 @@ class Api::V1::WordsController < ApplicationController
     render json: words.to_json(:include => [:category])
   end
 
-  def show_by_category
-    words = Word.where(category_id: word_params[:category_id])
-    render json: words
-  end
-
   def show
     word = Word.find(params[:id])
     render json: word.to_json(include: [:choices])

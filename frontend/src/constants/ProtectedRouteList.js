@@ -3,6 +3,7 @@ import { Dashboard } from '../pages/Dashboard'
 import { ProfileSettings } from '../pages/ProfileSettings'
 import { SingleUser } from '../pages/SingleUser'
 import { Users } from '../pages/Users'
+import { Words } from '../pages/Words'
 
 export const ProtectedRouteList = [
   {
@@ -29,5 +30,10 @@ export const ProtectedRouteList = [
     name: 'Categories',
     url: '/lessons/',
     page: Lessons
+  },
+  {
+    name: 'Words',
+    url: '/lessons/start/:id',
+    page: Words
   }
 ]

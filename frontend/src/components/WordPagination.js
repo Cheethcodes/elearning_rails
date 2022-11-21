@@ -6,10 +6,6 @@ export const WordPagination = ({ currentWord, changeWord }) => {
   const [hansAnswered, setHasAnswered] = useState(false)
   const [answer, setAnswer] = useState(null)
 
-  useEffect(() => {
-
-  }, [currentWord])
-
   const handleAnswerChange = () => {
     changeWord()
   }

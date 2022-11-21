@@ -41,8 +41,6 @@ export const Words = () => {
   }, [])
 
   const changeWord = () => {
-    console.log(indexOfLastRecord)
-
     if (currentPage === words.length) {
       navigate(`/categories/${id}/results`)
     }

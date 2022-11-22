@@ -1,7 +1,8 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Toastify } from '../components/Toastify'
 import { WordPagination } from '../components/WordPagination'
+import { GetCategories } from '../constants/Categories'
 import apiClient from '../services/api'
 import { useAuth } from '../services/AuthProvider'
 
@@ -38,14 +39,11 @@ export const Words = () => {
     })
   }, [])
 
-  const wordDate = useMemo(() => {
-    apiClient({
-      method: 'get',
-      url: `/api/v1/categories/${id}`
-    }).then(response => {
-      setCategory(response.data)
-    }).catch(error => {
-      Toastify('error', error.response.data)
+  const getCategory = useMemo(() => {
+    GetCategories(id).then(response => {
+      setCategory(response)
+    }).catch(response => {
+      Toastify('error', response.response.status + ' ' + response.response.statusText)
     })
   }, [])
 
@@ -62,7 +60,7 @@ export const Words = () => {
 
   const changeWord = () => {
     if (currentPage === words.length) {
-      navigate(`/categories/${id}/results`)
+      navigate(`/lessons/result/${id}`)
     }
     else {
       setCurrentPage(currentPage + 1)

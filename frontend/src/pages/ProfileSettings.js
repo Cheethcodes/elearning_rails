@@ -8,7 +8,7 @@ import apiClient from '../services/api'
 import { useAuth } from '../services/AuthProvider'
 
 export const ProfileSettings = () => {
-  const { loggedInUser, profileUpdate, setProfileUpdate } = useAuth()
+  const { loggedInUser } = useAuth()
 
   const [hasAvatar, setHasAvatar] = useState({
     hasContent: false,

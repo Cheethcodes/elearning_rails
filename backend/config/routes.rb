@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       resources :lessons do
         collection do
           post :show_lesson_info
+          post :show_results
         end
       end
       resources :answers

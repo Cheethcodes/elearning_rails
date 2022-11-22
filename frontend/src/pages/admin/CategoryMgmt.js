@@ -1,9 +1,9 @@
 import React, { useMemo, useState } from 'react'
 import { Toastify } from '../../components/Toastify'
-import apiClient from '../../services/api'
 import { CategoryMgmtModal } from '../../components/admin/CategoryMgmtModal'
 import { FaPenAlt, FaTrashAlt } from 'react-icons/fa'
 import { AdminPanel } from '../../components/AdminPanel'
+import { DeleteCategory, GetCategories } from '../../constants/Categories'
 
 export const CategoryMgmt = () => {
   const [modalActive, setModalActive] = useState(false)
@@ -18,14 +18,11 @@ export const CategoryMgmt = () => {
     setCurrentCategory(id)
   }
 
-  const data = useMemo(() => {
-    apiClient({
-      method: 'get',
-      url: '/api/v1/categories'
-    }).then(response => {
-      setCategories(response.data)
-    }).catch(error => {
-      Toastify('error', error.response.data)
+  const getCategory = useMemo(() => {
+    GetCategories().then(response => {
+      setCategories(response)
+    }).catch(response => {
+      Toastify('error', response.response.status + ' ' + response.response.statusText)
     })
 
     setUpdate(false)
@@ -33,14 +30,11 @@ export const CategoryMgmt = () => {
 
   const handleDelete = (id, name) => {
     if (window.confirm(`Confirm to delete ${name}.`)) {
-      apiClient({
-        method: 'delete',
-        url: `/api/v1/categories/${id}`
-      }).then(response => {
+      DeleteCategory(id).then(response => {
         Toastify('success', `Successfully deleted ${name}!`)
         setUpdate(true)
-      }).catch(error => {
-        Toastify('error', error.response.data)
+      }).catch(response => {
+        Toastify('error', response.response.status + ' ' + response.response.statusText)
       })
     }
   }

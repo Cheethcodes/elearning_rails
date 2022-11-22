@@ -1,18 +1,15 @@
 import React, { useMemo, useState } from 'react'
-import apiClient from '../services/api'
+import { GetCategories } from '../constants/Categories'
 import { Toastify } from './Toastify'
 
-export const CategoriesDropdown = ({id, list, action, currentValue}) => {
+export const CategoriesDropdown = ({id, action, currentValue}) => {
   const [categories, setCategories] = useState([])
 
-  const data = useMemo(() => {
-    apiClient({
-      method: 'get',
-      url: '/api/v1/categories'
-    }).then(response => {
-      setCategories(response.data)
-    }).catch(error => {
-      Toastify('error', error.response.data)
+  const getCategory = useMemo(() => {
+    GetCategories().then(response => {
+      setCategories(response)
+    }).catch(response => {
+      Toastify('error', response.response.status + ' ' + response.response.statusText)
     })
   }, [])
 

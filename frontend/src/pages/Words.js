@@ -1,22 +1,42 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Toastify } from '../components/Toastify'
 import { WordPagination } from '../components/WordPagination'
 import apiClient from '../services/api'
+import { useAuth } from '../services/AuthProvider'
 
 export const Words = () => {
+  const { loggedInUser } = useAuth()
   const { id } = useParams()
+  const navigate = useNavigate()
   const [category, setCategory] = useState({
     name: ''
   })
   const [words, setWords] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
   const recordsPerPage = 1
-
   const indexOfLastRecord = currentPage * recordsPerPage
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage
   const [currentWord, setCurrentWord] = words.slice(indexOfFirstRecord, indexOfLastRecord)
-  const navigate = useNavigate()
+  const [answers, setAnswers] = useState([])
+  const [lessonId, setLessonId] = useState(0)
+
+  const lessonData = useMemo(() => {
+    apiClient({
+      method: 'post',
+      url: `/api/v1/lessons/show_lesson_info`,
+      data: {
+        lesson: {
+          user_id: loggedInUser.id,
+          category_id: id
+        }
+      }
+    }).then(response => {
+      setLessonId(response.data.id)
+    }).catch(error => {
+      Toastify('error', error.response.data)
+    })
+  }, [])
 
   const wordDate = useMemo(() => {
     apiClient({
@@ -49,6 +69,12 @@ export const Words = () => {
     }
   }
 
+  useEffect(() => {
+    if (answers.length > 0) {
+      changeWord()
+    }
+  }, [answers])
+
   return (
     <div>
       <div className='flex justify-between items-center'>
@@ -67,10 +93,14 @@ export const Words = () => {
       <hr className='mt-1 mb-4' />
       {
         words.length > 0 ?
-          <WordPagination currentWord={currentWord} changeWord={changeWord} />
+          <WordPagination
+            userId={loggedInUser.id}
+            lessonId={lessonId}
+            currentWord={currentWord}
+            setAnswers={setAnswers} />
           :
           <div className='relative' style={{ height: '88.75vh' }}>
-            <div className='absolute text-center' style={{ top: '50%', left : '50%', transform: 'translate(-50%, -50%)' }}>
+            <div className='absolute text-center' style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
               <h5 className='font-bold text-2xl mb-4'>COMING SOON!</h5>
               <a className='bg-primary hover:bg-transparent text-white hover:text-primary border border-primary py-3 px-5 block' href='/lessons'>Back to Lessons</a>
             </div>

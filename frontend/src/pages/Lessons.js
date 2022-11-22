@@ -3,8 +3,10 @@ import { FaArrowCircleRight } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
 import { Toastify } from '../components/Toastify'
 import apiClient from '../services/api'
+import { useAuth } from '../services/AuthProvider'
 
 export const Lessons = () => {
+  const { loggedInUser } = useAuth()
   const [categories, setCategories] = useState([])
   const navigate = useNavigate()
 
@@ -19,6 +21,25 @@ export const Lessons = () => {
     })
   }, [])
 
+  const handleStartLesson = (id) => {
+    apiClient({
+      method: 'post',
+      url: '/api/v1/lessons',
+      data: {
+        lesson: {
+          user_id: loggedInUser.id,
+          category_id: id,
+          score: 0
+        }
+      }
+    }).then(response => {
+      navigate(`/lessons/start/${id}`)
+    })
+    .catch(error => {
+      Toastify('error', error.response.data)
+    })
+  }
+
   return (
     <div>
       <h4 className='text-lg text-primary font-bold'>Lessons</h4>
@@ -30,7 +51,7 @@ export const Lessons = () => {
         {
           categories.map((category, index) => {
             return (
-              <div key={index} className='card flex flex-col p-5' onClick={() => navigate(`/lessons/start/${category.id}`)}>
+              <div key={index} className='card flex flex-col p-5' onClick={() => handleStartLesson(category.id)}>
                 <div>
                   <h5 className='text-md font-medium text-primary'>{category.name}</h5>
                   <hr className='mt-1 mb-4' />

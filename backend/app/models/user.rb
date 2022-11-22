@@ -10,4 +10,6 @@ class User < ApplicationRecord
   include DeviseTokenAuth::Concerns::User
 
   validates :username, length: {minimum:4, maximum:10}, allow_blank: false
+
+  has_many :lessons, dependent: :destroy
 end

@@ -1,13 +1,29 @@
-import React, { useEffect, useState } from 'react'
-import { useAuth } from '../services/AuthProvider'
+import React, { useState } from 'react'
+import apiClient from '../services/api'
+import { Toastify } from './Toastify'
 
-export const WordPagination = ({ currentWord, changeWord }) => {
-  const { loggedInUser } = useAuth()
+export const WordPagination = ({ lessonId, currentWord, setAnswers }) => {
   const [hansAnswered, setHasAnswered] = useState(false)
-  const [answer, setAnswer] = useState(null)
 
-  const handleAnswerChange = () => {
-    changeWord()
+  const handleSubmit = (choiceId) => {
+    apiClient({
+      method: 'post',
+      url: '/api/v1/answers',
+      data: {
+        answer: {
+          lesson_id: lessonId,
+          word_id: currentWord.id,
+          choice_id: choiceId
+        }
+      }
+    }).then(response => {
+      setAnswers(currentData => [...currentData, {
+        word_id: currentWord.id,
+        choice_id: choiceId
+      }])
+    }).catch(error => {
+      Toastify('error', 'There was a problem saving your answer!')
+    })
   }
 
   return (
@@ -30,7 +46,7 @@ export const WordPagination = ({ currentWord, changeWord }) => {
                         :
                         <div
                           className='card p-5 flex items-center justify-center hover:bg-success_light' style={{ minHeight: '150px' }}
-                          onClick={() => handleAnswerChange()}>
+                          onClick={() => handleSubmit(choice.id)}>
                           <h4>{choice.content}</h4>
                         </div>
                     }

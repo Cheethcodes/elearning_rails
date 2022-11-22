@@ -1,17 +1,30 @@
 import React, { useState } from 'react'
+import apiClient from '../services/api'
+import { Toastify } from './Toastify'
 
-export const WordPagination = ({ currentWord, setAnswers, score, setScore }) => {
+export const WordPagination = ({ userId, currentWord, setAnswers }) => {
   const [hansAnswered, setHasAnswered] = useState(false)
 
-  const handleSubmit = (choiceId, correct) => {
-    setAnswers(currentData => [...currentData, {
-      word_id: currentWord.id,
-      choice_id: choiceId
-    }])
-
-    if (correct) {
-      setScore(score + 1)
-    }
+  const handleSubmit = (choiceId) => {
+    apiClient({
+      method: 'post',
+      url: '/api/v1/answers',
+      data: {
+        answer: {
+          user_id: userId,
+          category_id: currentWord.category_id,
+          word_id: currentWord.id,
+          choice_id: choiceId
+        }
+      }
+    }).then(response => {
+      setAnswers(currentData => [...currentData, {
+        word_id: currentWord.id,
+        choice_id: choiceId
+      }])
+    }).catch(error => {
+      Toastify('error', 'There was a problem saving your answer!')
+    })
   }
 
   return (
@@ -34,7 +47,7 @@ export const WordPagination = ({ currentWord, setAnswers, score, setScore }) => 
                         :
                         <div
                           className='card p-5 flex items-center justify-center hover:bg-success_light' style={{ minHeight: '150px' }}
-                          onClick={() => handleSubmit(choice.id, choice.correct)}>
+                          onClick={() => handleSubmit(choice.id)}>
                           <h4>{choice.content}</h4>
                         </div>
                     }

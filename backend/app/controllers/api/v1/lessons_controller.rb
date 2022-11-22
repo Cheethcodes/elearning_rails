@@ -1,11 +1,13 @@
 class Api::V1::LessonsController < ApplicationController
   def create
-    Lesson.create(lesson_params)
+    if Lesson.where(user_id: lesson_params[:user_id], category_id: lesson_params[:category_id]).count === 0
+      Lesson.create(lesson_params)
+    end
   end
 
   private
 
   def lesson_params
-    params.require(:lesson).permit(:user_id, :score, :category_id, answers_attributes: [:word_id, :choice_id])
+    params.require(:lesson).permit(:user_id, :score, :category_id)
   end
 end

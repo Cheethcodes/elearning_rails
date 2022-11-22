@@ -45,22 +45,7 @@ export const Words = () => {
 
   const changeWord = () => {
     if (currentPage === words.length) {
-      apiClient({
-        method: 'post',
-        url: '/api/v1/lessons',
-        data: {
-          lesson: {
-            user_id: loggedInUser.id,
-            score: score,
-            category_id: id,
-            answers_attributes: answers
-          }
-        }
-      }).then(response => {
-        navigate(`/categories/${id}/results`)
-      }).catch(error => {
-        Toastify('error', error.response.data)
-      })
+      navigate(`/categories/${id}/results`)
     }
     else {
       setCurrentPage(currentPage + 1)
@@ -92,11 +77,9 @@ export const Words = () => {
       {
         words.length > 0 ?
           <WordPagination
+            userId={loggedInUser.id}
             currentWord={currentWord}
-            answers={answers}
-            setAnswers={setAnswers}
-            score={score}
-            setScore={setScore} />
+            setAnswers={setAnswers} />
           :
           <div className='relative' style={{ height: '88.75vh' }}>
             <div className='absolute text-center' style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>

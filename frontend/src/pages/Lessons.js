@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react'
 import { FaArrowCircleRight } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
 import { Toastify } from '../components/Toastify'
+import { GetCategories } from '../constants/Categories'
 import apiClient from '../services/api'
 import { useAuth } from '../services/AuthProvider'
 
@@ -10,14 +11,11 @@ export const Lessons = () => {
   const [categories, setCategories] = useState([])
   const navigate = useNavigate()
 
-  const data = useMemo(() => {
-    apiClient({
-      method: 'get',
-      url: '/api/v1/categories'
-    }).then(response => {
-      setCategories(response.data)
-    }).catch(error => {
-      Toastify('error', error.response.data)
+  const getCategory = useMemo(() => {
+    GetCategories().then(response => {
+      setCategories(response)
+    }).catch(response => {
+      Toastify('error', response.response.status + ' ' + response.response.statusText)
     })
   }, [])
 

@@ -10,9 +10,6 @@ export const WordMgmtModal = ({ isActive, modalAction, actionType, currentWord, 
     content: '',
     category_id: 0,
   })
-  const [errorMessage, setErrorMessage] = useState({
-    content: null,
-  })
   const [choices, setChoices] = useState({
     choice_1: {
       id: null,
@@ -191,8 +188,7 @@ export const WordMgmtModal = ({ isActive, modalAction, actionType, currentWord, 
             className=' border border-slate-300'
             onChangeAction={handleOnChange}
             value={word.content}
-            required={true}
-            errorMessage={errorMessage.content} />
+            required={true} />
           <CategoriesDropdown
             id='category_id'
             action={handleOnChange}

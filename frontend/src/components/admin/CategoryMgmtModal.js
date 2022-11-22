@@ -3,29 +3,23 @@ import { FieldsWithValidation } from '../FieldsWithValidation'
 import { Toastify } from '../Toastify'
 import apiClient from '../../services/api'
 import { PopupModal } from '../PopupModal'
+import { GetCategories } from '../../constants/Categories'
 
 export const CategoryMgmtModal = ({ isActive, modalAction, actionType, currentCategory, setCurrentCategory, updateDataAction }) => {
   const [category, setCategory] = useState({
     name: '',
     description: '',
   })
-  const [errorMessage, setErrorMessage] = useState({
-    name: null,
-    description: null
-  })
 
   const data = useMemo(() => {
     if (actionType === 'update' && currentCategory !== 0) {
-      apiClient({
-        method: 'get',
-        url: `/api/v1/categories/${currentCategory}`,
-      }).then(resposne => {
+      GetCategories(currentCategory).then(response => {
         setCategory({
-          name: resposne.data.name,
-          description: (resposne.data.description && resposne.data.description) || ''
+          name: response.name,
+          description: (response.description && response.description) || ''
         })
-      }).catch(error => {
-        Toastify('error', error.resposne.data)
+      }).catch(response => {
+        Toastify('error', response.response.status + ' ' + response.response.statusText)
       })
     }
   }, [currentCategory])
@@ -81,8 +75,7 @@ export const CategoryMgmtModal = ({ isActive, modalAction, actionType, currentCa
             className=' border border-slate-300'
             onChangeAction={handleOnChange}
             value={category.name}
-            required={true}
-            errorMessage={errorMessage.name} />
+            required={true} />
           <textarea id='description' onChange={handleOnChange} value={category.description} placeholder='Description' className='w-full py-2 px-5 outline-0 bg-white border border-slate-300' />
         </div>
         <div className='mt-4 flex justify-end'>

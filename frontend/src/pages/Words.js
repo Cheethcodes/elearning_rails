@@ -19,7 +19,24 @@ export const Words = () => {
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage
   const [currentWord, setCurrentWord] = words.slice(indexOfFirstRecord, indexOfLastRecord)
   const [answers, setAnswers] = useState([])
-  const [score, setScore] = useState(0)
+  const [lessonId, setLessonId] = useState(0)
+
+  const lessonData = useMemo(() => {
+    apiClient({
+      method: 'post',
+      url: `/api/v1/lessons/show_lesson_info`,
+      data: {
+        lesson: {
+          user_id: loggedInUser.id,
+          category_id: id
+        }
+      }
+    }).then(response => {
+      setLessonId(response.data.id)
+    }).catch(error => {
+      Toastify('error', error.response.data)
+    })
+  }, [])
 
   const wordDate = useMemo(() => {
     apiClient({
@@ -78,6 +95,7 @@ export const Words = () => {
         words.length > 0 ?
           <WordPagination
             userId={loggedInUser.id}
+            lessonId={lessonId}
             currentWord={currentWord}
             setAnswers={setAnswers} />
           :

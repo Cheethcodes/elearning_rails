@@ -19,7 +19,11 @@ Rails.application.routes.draw do
         end
       end
       resources :words
-      resources :lessons
+      resources :lessons do
+        collection do
+          post :show_lesson_info
+        end
+      end
       resources :answers
     end
   end

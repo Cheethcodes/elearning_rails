@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import apiClient from '../services/api'
 import { Toastify } from './Toastify'
 
-export const WordPagination = ({ userId, currentWord, setAnswers }) => {
+export const WordPagination = ({ lessonId, currentWord, setAnswers }) => {
   const [hansAnswered, setHasAnswered] = useState(false)
 
   const handleSubmit = (choiceId) => {
@@ -11,8 +11,7 @@ export const WordPagination = ({ userId, currentWord, setAnswers }) => {
       url: '/api/v1/answers',
       data: {
         answer: {
-          user_id: userId,
-          category_id: currentWord.category_id,
+          lesson_id: lessonId,
           word_id: currentWord.id,
           choice_id: choiceId
         }

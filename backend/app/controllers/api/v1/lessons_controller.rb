@@ -5,6 +5,11 @@ class Api::V1::LessonsController < ApplicationController
     end
   end
 
+  def show_lesson_info
+    lesson = Lesson.where(user_id: lesson_params[:user_id], category_id: lesson_params[:category_id])
+    render json: lesson[0]
+  end
+
   private
 
   def lesson_params

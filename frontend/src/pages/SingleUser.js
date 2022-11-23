@@ -4,6 +4,8 @@ import apiClient from '../services/api'
 import { useParams } from 'react-router-dom'
 import { useAuth } from '../services/AuthProvider'
 import { Toastify } from '../components/Toastify'
+import { GetFollowActivityCount } from '../constants/FollowActivity'
+import { GetProfile } from '../constants/Profile'
 
 export const SingleUser = () => {
   const { loggedInUser } = useAuth()
@@ -17,13 +19,10 @@ export const SingleUser = () => {
   const [update, setUpdate] = useState(true)
 
   const dataProfile = useMemo(() => {
-    apiClient({
-      method: 'get',
-      url: `/api/v1/users/${id}`
-    }).then(response => {
-      setProfile(response.data)
-    }).catch(error => {
-      Toastify('error', error.response.data)
+    GetProfile(id).then(response => {
+      setProfile(response)
+    }).catch(() => {
+      Toastify('error')
     })
   }, [])
 
@@ -47,16 +46,12 @@ export const SingleUser = () => {
   }, [update])
 
   const dataCounter = useMemo(() => {
-    apiClient({
-      method: 'get',
-      url: `/api/v1/user_follows/${id}`
-    }).then(response => {
-      setCounter(response.data)
-    }).catch(error => {
-      Toastify('error', error.response.data)
+    GetFollowActivityCount(id).then(response => {
+      setCounter(response)
+      setUpdate(false)
+    }).catch(() => {
+      Toastify('error')
     })
-
-    setUpdate(false)
   }, [update])
 
   const toggleFollow = () => {
@@ -113,7 +108,7 @@ export const SingleUser = () => {
           <div className='grid grid-cols-2'>
             <div className='flex flex-col text-center'>
               <div className='font-bold'>{counter.followers}</div>
-              <div className='text-sm'>Followers</div>
+              <div className='text-sm'>Follower(s)</div>
             </div>
             <div className='flex flex-col text-center'>
               <div className='font-bold'>{counter.following}</div>

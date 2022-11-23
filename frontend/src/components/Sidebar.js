@@ -5,22 +5,19 @@ import { useAuth } from '../services/AuthProvider'
 import { BsGear } from 'react-icons/bs'
 import { TbBook2, TbDashboard, TbUser } from 'react-icons/tb'
 import UserAvatar from './UserAvatar'
-import apiClient from '../services/api'
 import { Toastify } from './Toastify'
 import { AdminRouteList } from '../constants/AdminRouteList'
+import { GetProfile } from '../constants/Profile'
 
 export const Sidebar = () => {
   const { loggedInUser, profileUpdate, logout } = useAuth()
   const [avatar, setAvatar] = useState(null)
 
   const data = useMemo(() => {
-    apiClient({
-      method: 'get',
-      url: `/api/v1/users/${loggedInUser.id}`
-    }).then(response => {
-      setAvatar((response.data.avatar !== null && response.data.avatar !== '') ? response.data.avatar.url : null)
-    }).catch(error => {
-      Toastify('error', error.reponse.data)
+    GetProfile(loggedInUser.id).then(response => {
+      setAvatar((response.avatar !== null && response.avatar !== '') ? response.avatar.url : null)
+    }).catch(() => {
+      Toastify('error')
     })
   }, [profileUpdate])
 
@@ -57,7 +54,6 @@ export const Sidebar = () => {
                     </li>
                   )
                 })
-
                 :
                 <></>
             }

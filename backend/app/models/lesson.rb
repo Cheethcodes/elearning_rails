@@ -3,6 +3,7 @@ class Lesson < ApplicationRecord
   has_many :answers, dependent: :destroy
   has_many :choices, through: :answers
   has_one :activity, as: :action
+  belongs_to :category
 
   def count_words
     self.choices.count

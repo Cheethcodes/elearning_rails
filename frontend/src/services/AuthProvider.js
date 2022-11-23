@@ -1,11 +1,13 @@
 import Cookies from 'js-cookie'
 import { createContext, useContext, useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import useCustomReducer from '../hooks/useCustomReducer'
 import SessionReducer from './SessionReducer'
 
 const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
+  const navigate = useNavigate
   const [loggedIn, setLoggedIn] = useCustomReducer(SessionReducer, sessionStorage.getItem('loggedIn') === 'true' || false)
   const [loggedInUser, setLoggedInUser] = useState({
     id: Cookies.get('user_id') ? Cookies.get('user_id') : '',
@@ -21,8 +23,22 @@ export const AuthProvider = ({ children }) => {
     })
   }
 
+  const logout = async () => {
+    const data = await setLoggedIn({
+        type: 'logout'
+    })
+
+    setLoggedInUser({
+        id: '',
+        username: '',
+        email: '',
+        is_admin: 'false',
+    })
+}
+
   const value = useMemo(() => ({
     login,
+    logout,
     loggedIn,
     loggedInUser,
     setLoggedInUser,

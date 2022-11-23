@@ -10,7 +10,7 @@ import { Toastify } from './Toastify'
 import { AdminRouteList } from '../constants/AdminRouteList'
 
 export const Sidebar = () => {
-  const { loggedInUser, profileUpdate } = useAuth()
+  const { loggedInUser, profileUpdate, logout } = useAuth()
   const [avatar, setAvatar] = useState(null)
 
   const data = useMemo(() => {
@@ -78,7 +78,7 @@ export const Sidebar = () => {
             <h6 className='text-sm'>{loggedInUser.is_admin === 'true' ? 'Instructor' : 'Student'}</h6>
           </div>
         </div>
-        <button style={{ padding: '0' }}>
+        <button style={{ padding: '0' }} onClick={logout}>
           <AiOutlinePoweroff className='text-lg font-bold' />
         </button>
       </div>

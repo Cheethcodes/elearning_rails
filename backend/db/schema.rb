@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_21_080127) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_23_034735) do
+  create_table "activities", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "action_id"
+    t.string "action_type"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_activities_on_user_id"
+  end
+
   create_table "answers", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "lesson_id"
     t.bigint "word_id"
@@ -92,6 +101,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_21_080127) do
     t.index ["content"], name: "index_words_on_content", unique: true
   end
 
+  add_foreign_key "activities", "users"
   add_foreign_key "answers", "choices"
   add_foreign_key "answers", "lessons"
   add_foreign_key "answers", "words"

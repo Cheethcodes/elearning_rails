@@ -7,7 +7,7 @@ import SessionReducer from './SessionReducer'
 const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
-  const navigate = useNavigate
+  const navigate = useNavigate()
   const [loggedIn, setLoggedIn] = useCustomReducer(SessionReducer, sessionStorage.getItem('loggedIn') === 'true' || false)
   const [loggedInUser, setLoggedInUser] = useState({
     id: Cookies.get('user_id') ? Cookies.get('user_id') : '',
@@ -34,6 +34,8 @@ export const AuthProvider = ({ children }) => {
         email: '',
         is_admin: 'false',
     })
+
+    navigate('/')
 }
 
   const value = useMemo(() => ({

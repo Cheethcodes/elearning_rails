@@ -15,7 +15,8 @@ class Api::V1::UserFollowsController < ApplicationController
   end
 
   def follow
-    UserFollow.create(user_follow_params)
+    action = UserFollow.create(user_follow_params)
+    action.create_activity(user_id: user_follow_params[:follower_id])
   end
 
   def unfollow

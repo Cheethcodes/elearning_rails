@@ -3,7 +3,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export const Toastify = (type, message) => (
   type === "error" ?
-    toast.error(message, {
+    toast.error('Something went wrong!', {
       bodyClassName: 'text-sm',
     })
     : type === "success" ?

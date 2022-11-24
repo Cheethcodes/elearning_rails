@@ -4,6 +4,7 @@ import { FaCheckCircle, FaTimes, FaTimesCircle } from 'react-icons/fa'
 import { FieldsWithValidation } from '../components/FieldsWithValidation'
 import { Toastify } from '../components/Toastify'
 import UserAvatar from '../components/UserAvatar'
+import { GetProfile } from '../constants/Profile'
 import apiClient from '../services/api'
 import { useAuth } from '../services/AuthProvider'
 
@@ -42,22 +43,19 @@ export const ProfileSettings = () => {
   }
 
   const data = useMemo(() => {
-    apiClient({
-      method: 'get',
-      url: `/api/v1/users/${loggedInUser.id}`
-    }).then(response => {
+    GetProfile(loggedInUser.id).then(response => {
       setProfile({
         ...profile,
-        username: response.data.username,
-        email: response.data.email,
-        avatar: (response.data.avatar !== null && response.data.avatar !== '') ? response.data.avatar.url : null
+        username: response.username,
+        email: response.email,
+        avatar: (response.avatar !== null && response.avatar !== '') ? response.avatar.url : null
       })
       setHasAvatar({
         ...hasAvatar,
-        hasContent: (response.data.avatar !== '' && response.data.avatar !== null) ? true : false
+        hasContent: (response.avatar !== '' && response.avatar !== null) ? true : false
       })
-    }).catch(error => {
-      Toastify('error', error.response.data)
+    }).catch(() => {
+      Toastify('error')
     })
   }, [])
 

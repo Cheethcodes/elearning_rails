@@ -2,7 +2,7 @@ class Lesson < ApplicationRecord
   belongs_to :user
   has_many :answers, dependent: :destroy
   has_many :choices, through: :answers
-  has_one :activity, as: :action
+  has_one :activity, as: :action, dependent: :destroy
   belongs_to :category
 
   def count_words

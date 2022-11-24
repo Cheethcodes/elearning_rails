@@ -22,9 +22,7 @@ class Api::V1::UserFollowsController < ApplicationController
   def unfollow
     action = UserFollow.find_by(followed_id: user_follow_params[:followed_id], follower_id: user_follow_params[:follower_id])
     activity = Activity.find_by(action_id: action.id)
-
     action.destroy
-    activity.destroy
   end
 
   private

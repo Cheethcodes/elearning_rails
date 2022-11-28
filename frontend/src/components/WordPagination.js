@@ -22,7 +22,7 @@ export const WordPagination = ({ lessonId, currentWord, setAnswers }) => {
         choice_id: choiceId
       }])
     }).catch(error => {
-      Toastify('error', 'There was a problem saving your answer!')
+      Toastify('error')
     })
   }
 

@@ -25,7 +25,7 @@ export const WordMgmt = () => {
     }).then(response => {
       setWords(response.data)
     }).catch(error => {
-      Toastify('error', error.response.data)
+      Toastify('error')
     })
 
     setUpdate(false)
@@ -40,7 +40,7 @@ export const WordMgmt = () => {
         Toastify('success', `Successfully deleted ${name}!`)
         setUpdate(true)
       }).catch(error => {
-        Toastify('error', error.response.data)
+        Toastify('error')
       })
     }
   }

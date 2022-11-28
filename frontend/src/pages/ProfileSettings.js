@@ -111,7 +111,7 @@ export const ProfileSettings = () => {
       Toastify('success', 'Successfully updated avatar!')
       window.location.reload(false)
     }).catch(error => {
-      Toastify('error', error.response.data)
+      Toastify('error')
     })
 
   }
@@ -138,7 +138,7 @@ export const ProfileSettings = () => {
         confirm_password: ''
       })
     }).catch(error => {
-      Toastify('error', error.response.data)
+      Toastify('error')
     })
   }
 

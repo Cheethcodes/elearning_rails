@@ -11,8 +11,8 @@ export const AdminRouteList = [
     page: UserMgmt,
   },
   {
-    name: 'Category Management',
-    url: '/category-management',
+    name: 'Lesson Management',
+    url: '/lesson-management',
     icon: MdBookOnline,
     page: CategoryMgmt,
   },

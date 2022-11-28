@@ -24,7 +24,7 @@ export default function SessionReducer(state, action) {
         Cookies.remove('uid')
         Cookies.remove('authorization')
       }).catch(error => {
-        Toastify('error', 'There was an error processing your request!')
+        Toastify('error')
       })
       return false
 

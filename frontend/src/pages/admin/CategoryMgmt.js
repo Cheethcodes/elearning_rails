@@ -22,7 +22,7 @@ export const CategoryMgmt = () => {
     GetCategories().then(response => {
       setCategories(response)
     }).catch(response => {
-      Toastify('error', response.response.status + ' ' + response.response.statusText)
+      Toastify('error')
     })
 
     setUpdate(false)
@@ -34,7 +34,7 @@ export const CategoryMgmt = () => {
         Toastify('success', `Successfully deleted ${name}!`)
         setUpdate(true)
       }).catch(response => {
-        Toastify('error', response.response.status + ' ' + response.response.statusText)
+        Toastify('error')
       })
     }
   }
@@ -49,11 +49,11 @@ export const CategoryMgmt = () => {
         updateDataAction={setUpdate}
         setCurrentCategory={setCurrentCategory} />
       <div className='flex justify-between items-center'>
-        <h4 className='text-lg text-primary font-bold'>Categories Management Console</h4>
+        <h4 className='text-lg text-primary font-bold'>Lessons Management Console</h4>
         <button
           className='bg-primary hover:bg-transparent text-white hover:text-primary border border-primary py-2 px-5'
           onClick={() => showModal('new')}>
-          Add Category
+          Add Lesson
         </button>
       </div>
       <AdminPanel tableHeaders={['Title', 'Action']}>
@@ -84,7 +84,7 @@ export const CategoryMgmt = () => {
             })
             :
             <tr>
-              <td colSpan='2'>No categories to show</td>
+              <td colSpan='2'>No lessons to show</td>
             </tr>
         }
       </AdminPanel>

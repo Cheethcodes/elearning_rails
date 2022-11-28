@@ -9,6 +9,40 @@ class Api::V1::UsersController < ApplicationController
     render json: user
   end
 
+  def show_lessons
+    user = User.find(params[:id])
+    categories = Category.all
+
+    category_list = categories.map{ |category|
+      current_category = category
+      words = category.words
+      has_answered = false
+      answer_list = 0
+
+      lesson = Lesson.find_by(user_id: params[:id], category_id: current_category.id)
+
+      if lesson.nil?
+        answer_list = 0
+        has_answered = false
+      else
+        answer_list = Answer.where(lesson_id: lesson.id).count
+        if answer_list > 0
+          has_answered = true
+        else
+          has_answered = false
+        end
+      end
+
+      category = {
+        info: current_category,
+        words: words,
+        has_answered: has_answered
+      }
+    }
+
+    render json: category_list
+  end
+
   def update
     user = User.find(params[:id])
     user.update(username: avatar_params[:username])

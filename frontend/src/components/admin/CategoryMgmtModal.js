@@ -19,7 +19,7 @@ export const CategoryMgmtModal = ({ isActive, modalAction, actionType, currentCa
           description: (response.description && response.description) || ''
         })
       }).catch(response => {
-        Toastify('error', response.response.status + ' ' + response.response.statusText)
+        Toastify('error')
       })
     }
   }, [currentCategory])
@@ -46,7 +46,7 @@ export const CategoryMgmtModal = ({ isActive, modalAction, actionType, currentCa
         updateDataAction(true)
         resetModal()
       }).catch(error => {
-        Toastify('error', error.resposne.data)
+        Toastify('error')
       })
     }
   }
@@ -64,7 +64,7 @@ export const CategoryMgmtModal = ({ isActive, modalAction, actionType, currentCa
   return (
     <PopupModal
       isActive={isActive}
-      title={actionType === 'update' ? category.name : 'New Category'}
+      title={actionType === 'update' ? category.name : 'New Lesson'}
       closeAction={resetModal}>
       <form onSubmit={handleSubmit} className='flex flex-col grow'>
         <div className='flex flex-col gap-4 grow'>
@@ -83,7 +83,7 @@ export const CategoryMgmtModal = ({ isActive, modalAction, actionType, currentCa
             type='submit'
             className='bg-primary hover:bg-transparent text-white hover:text-primary border border-primary py-3 px-5'
             style={{ width: '180px' }}>
-            {`${actionType === 'update' ? 'Update Category' : 'Save Category'}`}
+            {`${actionType === 'update' ? 'Update Lesson' : 'Save Lesson'}`}
           </button>
         </div>
       </form>

@@ -63,7 +63,7 @@ export const WordMgmtModal = ({ isActive, modalAction, actionType, currentWord, 
           },
         })
       }).catch(error => {
-        Toastify('error', error.resposne.data)
+        Toastify('error')
       })
     }
   }, [currentWord])
@@ -80,7 +80,7 @@ export const WordMgmtModal = ({ isActive, modalAction, actionType, currentWord, 
 
     if (window.confirm('Confirm to save word!')) {
       if (word.category_id === 0) {
-        Toastify('error', 'Please select a category!')
+        Toastify('error')
         return
       }
 
@@ -99,7 +99,7 @@ export const WordMgmtModal = ({ isActive, modalAction, actionType, currentWord, 
         updateDataAction(true)
         resetModal()
       }).catch(error => {
-        Toastify('error', error.response.data)
+        Toastify('error')
       })
     }
   }

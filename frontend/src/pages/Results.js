@@ -24,7 +24,7 @@ export const Results = () => {
     }).then(response => {
       setLessonInfo(response.data)
     }).catch(error => {
-      Toastify('error', error.response.data)
+      Toastify('error')
     })
   }, [])
 
@@ -32,7 +32,7 @@ export const Results = () => {
     GetCategories(id).then(response => {
       setCategory(response)
     }).catch(response => {
-      Toastify('error', response.response.status + ' ' + response.response.statusText)
+      Toastify('error')
     })
   }, [])
 

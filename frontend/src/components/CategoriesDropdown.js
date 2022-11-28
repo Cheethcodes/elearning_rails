@@ -9,7 +9,7 @@ export const CategoriesDropdown = ({id, action, currentValue}) => {
     GetCategories().then(response => {
       setCategories(response)
     }).catch(response => {
-      Toastify('error', response.response.status + ' ' + response.response.statusText)
+      Toastify('error')
     })
   }, [])
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { ComingSoonNotification } from '../components/ComingSoonNotification'
 import { Toastify } from '../components/Toastify'
 import { WordPagination } from '../components/WordPagination'
 import { GetCategories } from '../constants/Categories'
@@ -35,7 +36,7 @@ export const Words = () => {
     }).then(response => {
       setLessonId(response.data.id)
     }).catch(error => {
-      Toastify('error', error.response.data)
+      Toastify('error')
     })
   }, [])
 
@@ -43,7 +44,7 @@ export const Words = () => {
     GetCategories(id).then(response => {
       setCategory(response)
     }).catch(response => {
-      Toastify('error', response.response.status + ' ' + response.response.statusText)
+      Toastify('error')
     })
   }, [])
 
@@ -54,7 +55,7 @@ export const Words = () => {
     }).then(response => {
       setWords(response.data)
     }).catch(error => {
-      Toastify('error', error.response.data)
+      Toastify('error')
     })
   }, [])
 
@@ -97,12 +98,17 @@ export const Words = () => {
             currentWord={currentWord}
             setAnswers={setAnswers} />
           :
-          <div className='relative' style={{ height: '88.75vh' }}>
-            <div className='absolute text-center' style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-              <h5 className='font-bold text-2xl mb-4'>COMING SOON!</h5>
+          <ComingSoonNotification>
+            <div className='grid grid-cols-2 gap-1'>
               <a className='bg-primary hover:bg-transparent text-white hover:text-primary border border-primary py-3 px-5 block' href='/lessons'>Back to Lessons</a>
+              {
+                loggedInUser.is_admin === 'true' ?
+                  <a className='bg-primary hover:bg-transparent text-white hover:text-primary border border-primary py-2 px-5 flex items-center justify-center' href='/word-management'>Add Word</a>
+                  :
+                  <></>
+              }
             </div>
-          </div>
+          </ComingSoonNotification>
       }
     </div>
   )

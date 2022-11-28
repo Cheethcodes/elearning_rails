@@ -1,7 +1,7 @@
 class Api::V1::CategoriesController < ApplicationController
   def index
     category = Category.all
-    render json: category
+    render json: category.to_json(include: [:words])
   end
 
   def show

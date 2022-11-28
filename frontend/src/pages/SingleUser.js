@@ -39,7 +39,7 @@ export const SingleUser = () => {
     }).then(response => {
       setIsFollowing(response.data)
     }).catch(error => {
-      Toastify('error', error.response.data)
+      Toastify('error')
     })
 
     setUpdate(false)
@@ -68,7 +68,7 @@ export const SingleUser = () => {
       Toastify('success', `Successfully ${isFollowing ? 'unfollowed' : 'followed'} ${profile.username}`)
       setUpdate(true)
     }).catch(error => {
-      Toastify('error', error.response.data)
+      Toastify('error')
     })
   }
 

@@ -10,6 +10,10 @@ export const Toastify = (type, message) => (
       toast.success(message, {
         bodyClassName: 'text-sm',
       })
-      :
-      <></>
+      : type === "warning" ?
+        toast.warning(message, {
+          bodyClassName: 'text-sm',
+        })
+        :
+        <></>
 )

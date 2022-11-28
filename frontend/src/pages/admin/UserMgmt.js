@@ -16,7 +16,7 @@ export const UserMgmt = () => {
     }).then(response => {
       setUsers(response.data)
     }).catch(error => {
-      Toastify('error', error.response.data)
+      Toastify('error')
     })
 
     setUpdate(false)
@@ -37,7 +37,7 @@ export const UserMgmt = () => {
       Toastify('success', 'Successfully updated user!')
       setUpdate(true)
     }).catch(error => {
-      Toastify('error', error.response.data)
+      Toastify('error')
     })
   }
 

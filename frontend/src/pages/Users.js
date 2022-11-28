@@ -16,7 +16,7 @@ export const Users = () => {
     }).then(response => {
       setUsers(response.data)
     }).catch(error => {
-      Toastify('error', error.response.data)
+      Toastify('error')
     })
   }, [])
 

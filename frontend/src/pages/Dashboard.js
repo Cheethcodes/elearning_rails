@@ -41,7 +41,7 @@ export const Dashboard = () => {
     }).then(response => {
       setActivities(response.data)
     }).catch(error => {
-      Toastify('error', error.response.data)
+      Toastify('error')
     })
   }, [])
 

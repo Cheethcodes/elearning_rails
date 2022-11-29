@@ -1,19 +1,7 @@
-import apiClient from '../services/api'
+import { DeleteItem, GetItem, SaveItem } from "../services/ApiCalls"
 
-export const GetCategories = async (id) => {
-    let response = await apiClient({
-      method: 'get',
-      url: id && `/api/v1/categories/${id}` || '/api/v1/categories'
-    })
+const apiLocation = '/api/v1/categories'
 
-    return response.data
-}
-
-export const DeleteCategory = async (id) => {
-  let response = await apiClient({
-    method: 'delete',
-    url: `/api/v1/categories/${id}`
-  })
-
-  return response.data
-}
+export const GetCategories = (id) => GetItem(apiLocation, id)
+export const DeleteCategory = (id) => DeleteItem(apiLocation, id)
+export const SaveCategory = (actionType, data, id) => SaveItem(apiLocation, actionType, data, id)

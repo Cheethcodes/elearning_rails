@@ -1,8 +1,8 @@
 import React, { useMemo, useState } from 'react'
 import { Toastify } from '../components/Toastify'
-import apiClient from '../services/api'
 import { useAuth } from '../services/AuthProvider'
 import { useNavigate } from 'react-router-dom'
+import { GetProfile } from '../constants/Profile'
 
 export const Users = () => {
   const { loggedInUser } = useAuth()
@@ -10,11 +10,8 @@ export const Users = () => {
   const [users, setUsers] = useState([])
 
   const data = useMemo(() => {
-    apiClient({
-      method: 'get',
-      url: '/api/v1/users'
-    }).then(response => {
-      setUsers(response.data)
+    GetProfile().then(response => {
+      setUsers(response)
     }).catch(error => {
       Toastify('error')
     })

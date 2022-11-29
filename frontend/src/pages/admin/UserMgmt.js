@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import { AdminPanel } from '../../components/AdminPanel'
 import { Toastify } from '../../components/Toastify'
+import { GetProfile } from '../../constants/Profile'
 import apiClient from '../../services/api'
 import { useAuth } from '../../services/AuthProvider'
 
@@ -10,16 +11,12 @@ export const UserMgmt = () => {
   const [update, setUpdate] = useState(true)
 
   const data = useMemo(() => {
-    apiClient({
-      method: 'get',
-      url: '/api/v1/users'
-    }).then(response => {
-      setUsers(response.data)
+    GetProfile().then(response => {
+      setUsers(response)
+      setUpdate(false)
     }).catch(error => {
       Toastify('error')
     })
-
-    setUpdate(false)
   }, [update])
 
   const toggleAdminRole = (id, is_admin) => {

@@ -1,9 +1,8 @@
 import React, { useMemo, useState } from 'react'
 import { FieldsWithValidation } from '../FieldsWithValidation'
 import { Toastify } from '../Toastify'
-import apiClient from '../../services/api'
 import { PopupModal } from '../PopupModal'
-import { GetCategories } from '../../constants/Categories'
+import { GetCategories, SaveCategory } from '../../constants/Categories'
 
 export const CategoryMgmtModal = ({ isActive, modalAction, actionType, currentCategory, setCurrentCategory, updateDataAction }) => {
   const [category, setCategory] = useState({
@@ -35,17 +34,13 @@ export const CategoryMgmtModal = ({ isActive, modalAction, actionType, currentCa
     e.preventDefault()
 
     if (window.confirm('Confirm to save category!')) {
-      apiClient({
-        method: actionType === 'update' ? 'patch' : 'post',
-        url: actionType === 'update' ? `/api/v1/categories/${currentCategory}` : '/api/v1/categories',
-        data: {
-          category: category
-        }
-      }).then(resposne => {
+      let data = {category: category}
+
+      SaveCategory(actionType, data, currentCategory).then(response => {
         Toastify('success', `Successfully ${actionType === 'update' ? 'updated' : 'added'} ${category.name}!`)
         updateDataAction(true)
         resetModal()
-      }).catch(error => {
+      }).catch(response => {
         Toastify('error')
       })
     }

@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react'
-import apiClient from '../../services/api'
+import { GetWords, SaveWord } from '../../constants/Words'
 import { CategoriesDropdown } from '../CategoriesDropdown'
 import { FieldsWithValidation } from '../FieldsWithValidation'
 import { PopupModal } from '../PopupModal'
@@ -35,34 +35,31 @@ export const WordMgmtModal = ({ isActive, modalAction, actionType, currentWord, 
 
   const data = useMemo(() => {
     if (actionType === 'update' && currentWord !== 0) {
-      apiClient({
-        method: 'get',
-        url: `/api/v1/words/${currentWord}`,
-      }).then(response => {
-        setWord(response.data)
+      GetWords(currentWord).then(response => {
+        setWord(response)
         setChoices({
           choice_1: {
-            id: response.data.choices[0].id,
-            content: response.data.choices[0].content,
-            correct: response.data.choices[0].correct,
+            id: response.choices[0].id,
+            content: response.choices[0].content,
+            correct: response.choices[0].correct,
           },
           choice_2: {
-            id: response.data.choices[1].id,
-            content: response.data.choices[1].content,
-            correct: response.data.choices[1].correct,
+            id: response.choices[1].id,
+            content: response.choices[1].content,
+            correct: response.choices[1].correct,
           },
           choice_3: {
-            id: response.data.choices[2].id,
-            content: response.data.choices[2].content,
-            correct: response.data.choices[2].correct,
+            id: response.choices[2].id,
+            content: response.choices[2].content,
+            correct: response.choices[2].correct,
           },
           choice_4: {
-            id: response.data.choices[3].id,
-            content: response.data.choices[3].content,
-            correct: response.data.choices[3].correct,
+            id: response.choices[3].id,
+            content: response.choices[3].content,
+            correct: response.choices[3].correct,
           },
         })
-      }).catch(error => {
+      }).catch(response => {
         Toastify('error')
       })
     }
@@ -84,21 +81,19 @@ export const WordMgmtModal = ({ isActive, modalAction, actionType, currentWord, 
         return
       }
 
-      apiClient({
-        method: actionType === 'update' ? 'patch' : 'post',
-        url: actionType === 'update' ? `/api/v1/words/${currentWord}` : '/api/v1/words',
-        data: {
-          word: {
-            content: word.content,
-            category_id: word.category_id,
-            choices_attributes: [choices.choice_1, choices.choice_2, choices.choice_3, choices.choice_4]
-          }
+      let data = {
+        word: {
+          content: word.content,
+          category_id: word.category_id,
+          choices_attributes: [choices.choice_1, choices.choice_2, choices.choice_3, choices.choice_4]
         }
-      }).then(resposne => {
+      }
+
+      SaveWord(actionType, data, currentWord).then(response => {
         Toastify('success', `Successfully ${actionType === 'update' ? 'updated' : 'added'} ${word.content}!`)
         updateDataAction(true)
         resetModal()
-      }).catch(error => {
+      }).catch(response => {
         Toastify('error')
       })
     }

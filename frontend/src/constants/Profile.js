@@ -1,10 +1,6 @@
-import apiClient from '../services/api'
+import { GetItem, SaveItem } from '../services/ApiCalls'
 
-export const GetProfile = async (id) => {
-  let response = await apiClient({
-    method: 'get',
-    url: `/api/v1/users/${id}`
-  })
+const apiLocation = '/api/v1/users'
 
-  return response.data
-}
+export const GetProfile = (id) => GetItem(apiLocation, id)
+export const SaveProfile = (actionType, data, id) => SaveItem(apiLocation, actionType, data, id)

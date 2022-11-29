@@ -78,16 +78,7 @@ export const Words = () => {
     <div>
       <div className='flex justify-between items-center'>
         <h4 className='text-lg text-primary font-bold'>Quiz | {category.name}</h4>
-        <div>
-          {
-            words.length > 0 ?
-              <>
-                {currentPage} of {words.length}
-              </>
-              :
-              <>...</>
-          }
-        </div>
+        <div>{words.length > 0 ? `${currentPage} of ${words.length}` : '...'}</div>
       </div>
       <hr className='mt-1 mb-4' />
       {

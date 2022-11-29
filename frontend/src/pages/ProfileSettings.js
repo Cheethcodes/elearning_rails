@@ -4,7 +4,7 @@ import { FaCheckCircle, FaTimes, FaTimesCircle } from 'react-icons/fa'
 import { FieldsWithValidation } from '../components/FieldsWithValidation'
 import { Toastify } from '../components/Toastify'
 import UserAvatar from '../components/UserAvatar'
-import { GetProfile } from '../constants/Profile'
+import { GetProfile, SaveProfile } from '../constants/Profile'
 import apiClient from '../services/api'
 import { useAuth } from '../services/AuthProvider'
 
@@ -101,19 +101,14 @@ export const ProfileSettings = () => {
     formData.append('avatar[username]', profile.username)
     formData.append('avatar[email]', profile.email)
 
-    apiClient({
-      method: 'patch',
-      url: `/api/v1/users/${loggedInUser.id}/`,
-      data: formData
-    }).then(response => {
+    SaveProfile('update', formData, loggedInUser.id).then(response => {
       Cookies.set('user_username', profile.username)
       Cookies.set('user_email', profile.email)
       Toastify('success', 'Successfully updated avatar!')
       window.location.reload(false)
-    }).catch(error => {
+    }).catch(response => {
       Toastify('error')
     })
-
   }
 
   const savePassword = (e) => {
@@ -225,7 +220,7 @@ export const ProfileSettings = () => {
                           User Level:
                         </div>
                       </td>
-                      <td className='pb-2'>{loggedInUser.is_admin === true ? 'Instructor' : 'Student'}</td>
+                      <td className='pb-2'>{loggedInUser.is_admin === 'true' ? 'Instructor' : 'Student'}</td>
                     </tr>
                   </tbody>
                 </table>

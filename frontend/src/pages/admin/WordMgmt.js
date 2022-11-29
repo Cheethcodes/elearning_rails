@@ -3,7 +3,7 @@ import { FaPenAlt, FaTrashAlt } from 'react-icons/fa'
 import { WordMgmtModal } from '../../components/admin/WordMgmtModal'
 import { AdminPanel } from '../../components/AdminPanel'
 import { Toastify } from '../../components/Toastify'
-import apiClient from '../../services/api'
+import { DeleteWord, GetWords } from '../../constants/Words'
 
 export const WordMgmt = () => {
   const [modalActive, setModalActive] = useState(false)
@@ -19,27 +19,20 @@ export const WordMgmt = () => {
   }
 
   const data = useMemo(() => {
-    apiClient({
-      method: 'get',
-      url: '/api/v1/words'
-    }).then(response => {
-      setWords(response.data)
-    }).catch(error => {
+    GetWords().then(response => {
+      setWords(response)
+      setUpdate(false)
+    }).catch(response => {
       Toastify('error')
     })
-
-    setUpdate(false)
   }, [update])
 
   const handleDelete = (id, name) => {
     if (window.confirm(`Confirm to delete ${name}.`)) {
-      apiClient({
-        method: 'delete',
-        url: `/api/v1/words/${id}`
-      }).then(response => {
+      DeleteWord(id).then(response => {
         Toastify('success', `Successfully deleted ${name}!`)
         setUpdate(true)
-      }).catch(error => {
+      }).catch(response => {
         Toastify('error')
       })
     }

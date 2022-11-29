@@ -18,9 +18,9 @@ class Api::V1::LessonsController < ApplicationController
     lesson.create_activity(user_id: lesson_params[:user_id])
     answers = Answer.where(lesson_id: lesson.id)
     answer_list = answers.map{ |answer|
-      user_choice = Choice.find(answer[:choice_id])
-      word = Word.find(answer[:word_id])
-      correct_answer = Choice.find_by(word_id: user_choice[:word_id], correct: true)
+      user_choice = answer.choice
+      word = answer.word
+      correct_answer = word.choices.find_by(correct: true)
 
       choice = {
         word: word,

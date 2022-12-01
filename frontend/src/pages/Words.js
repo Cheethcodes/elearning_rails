@@ -87,7 +87,8 @@ export const Words = () => {
             userId={loggedInUser.id}
             lessonId={lessonId}
             currentWord={currentWord}
-            setAnswers={setAnswers} />
+            setAnswers={setAnswers}
+            lastIndex={words[words.length - 1]} />
           :
           <ComingSoonNotification>
             <div className='grid grid-cols-2 gap-1'>

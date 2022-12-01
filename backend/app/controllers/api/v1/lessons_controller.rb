@@ -15,7 +15,13 @@ class Api::V1::LessonsController < ApplicationController
     result = lesson.get_results
     lesson.update!(score: result)
     status = result
-    lesson.create_activity(user_id: lesson_params[:user_id])
+
+    activity = Activity.find_by(action_id: lesson[:id])
+
+    if activity.nil?
+      lesson.create_activity(user_id: lesson_params[:user_id])
+    end
+
     answers = Answer.where(lesson_id: lesson.id)
     answer_list = answers.map{ |answer|
       user_choice = answer.choice

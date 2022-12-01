@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { SaveAnswer } from '../constants/Answers'
 import { Toastify } from './Toastify'
 
-export const WordPagination = ({ lessonId, currentWord, setAnswers }) => {
+export const WordPagination = ({ lessonId, currentWord, setAnswers, lastIndex }) => {
   const [hansAnswered, setHasAnswered] = useState(false)
 
   const handleSubmit = (choiceId) => {
@@ -10,7 +10,8 @@ export const WordPagination = ({ lessonId, currentWord, setAnswers }) => {
       answer: {
         lesson_id: lessonId,
         word_id: currentWord.id,
-        choice_id: choiceId
+        choice_id: choiceId,
+        trigger: currentWord.id === lastIndex.id ? true : false
       }
     }
 

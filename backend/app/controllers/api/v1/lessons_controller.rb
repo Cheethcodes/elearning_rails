@@ -12,10 +12,7 @@ class Api::V1::LessonsController < ApplicationController
 
   def show_results
     lesson = Lesson.find_by(user_id: lesson_params[:user_id], category_id: lesson_params[:category_id])
-    result = lesson.get_results
-    lesson.update!(score: result)
-    status = result
-    lesson.create_activity(user_id: lesson_params[:user_id])
+
     answers = Answer.where(lesson_id: lesson.id)
     answer_list = answers.map{ |answer|
       user_choice = answer.choice
@@ -31,7 +28,7 @@ class Api::V1::LessonsController < ApplicationController
 
     render json: {
       total: lesson.count_words,
-      score: result,
+      score: lesson.score,
       answers: answer_list
     }
   end

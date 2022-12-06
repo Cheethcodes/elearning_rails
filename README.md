@@ -15,7 +15,7 @@
 
 ### Cloning the repository
 ```sh 
-$ git clone https://github.com/gbrlhnz/elearning_rails
+$ git clone https://github.com/Cheethcodes/elearning_rails
 $ git pull
 ```
 ### Initializing the project for development
